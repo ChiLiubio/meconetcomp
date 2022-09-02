@@ -1,0 +1,20 @@
+Package: meconetcomp
+Type: Package
+Title: Compare Microbial Networks from 'trans_network' Class of "microeco" Package
+Version: 0.1.0
+Author: Chi Liu [aut, cre]
+Maintainer: Chi Liu <liuchi0426@126.com>
+Description: Compare microbial co-occurrence networks created from 'trans_network' class of "microeco" package.
+    This package is especially useful when different networks are construted and analyzed simultaneously.
+URL: https://github.com/ChiLiubio/meconetcomp
+Depends: R (>= 3.5.0)
+Imports: microeco, magrittr, dplyr, igraph, rgexf
+Suggests: file2meco
+License: GPL-3
+LazyData: true
+Encoding: UTF-8
+NeedsCompilation: no
+Packaged: 2022-08-31
+Repository: CRAN
+Date/Publication: 2022-08-31
+RoxygenNote: 7.1.2
