@@ -8,6 +8,7 @@
 data(soil_amp)
 }
 \description{
-The soil_amp data is the 16S rRNA gene amplicon sequencing dataset of Chinese wetland soil.
+The soil_amp data is the 16S rRNA gene amplicon sequencing dataset of Chinese wetland soils.
+Reference: An et al. 2019 <doi:10.1016/j.geoderma.2018.09.035>; Liu et al. 2022 <10.1016/j.geoderma.2022.115866>
 }
 \keyword{microtable}

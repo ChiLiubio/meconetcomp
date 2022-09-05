@@ -9,5 +9,6 @@ data(soil_amp_network)
 }
 \description{
 The soil_amp_network data is a list storing three trans_network objects created based on soil_amp data.
+Three networks are created for IW, CW and TW groups, respectively.
 }
 \keyword{list}

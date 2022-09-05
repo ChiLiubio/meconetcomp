@@ -4,7 +4,7 @@
 Compare microbial co-occurrence networks based on the trans_network class of microeco package
 
 
-![](https://img.shields.io/badge/Test-v0.1.1-red.svg)
+![](https://img.shields.io/badge/Test-v0.1.0-red.svg)
 
 
 ## Install meconetcomp

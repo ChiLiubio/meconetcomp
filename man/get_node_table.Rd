@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_node_table.R
 \name{get_node_table}
 \alias{get_node_table}
-\title{Get node property tables from networks}
+\title{Get node property table for each network}
 \usage{
 get_node_table(network_list, ...)
 }
@@ -12,14 +12,14 @@ get_node_table(network_list, ...)
 \item{...}{parameter passed to get_node_table function of \code{\link{trans_network}} class.}
 }
 \value{
-list
+list, with res_node_table in each network
 }
 \description{
-Get node property tables from a list with multiple networks.
+Get node property table for each network in the list with multiple networks.
 }
 \examples{
-\dontrun{
+\donttest{
 data(soil_amp_network)
-soil_amp_network \%<>\% get_node_table(node_roles = FALSE)
+soil_amp_network <- get_node_table(soil_amp_network, node_roles = FALSE)
 }
 }

@@ -4,18 +4,19 @@
 #' Extracting a network according to the edge intersection of networks.
 #' 
 #' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.
-#' @return a trans_network object, with the extracted edges in the network
+#' @param venn default NULL; a microtable object which must be converted by trans_comm function of trans_venn class.
+#' @param name default NULL; integer or character; must be a number or one of colnames of the otu_table in venn.
+#' @return a trans_network object, with only the extracted edges in the network
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(soil_amp_network)
-#' # obtain edge distribution
+#' # first obtain edge distribution
 #' tmp <- edge_comp(soil_amp_network)
 #' # obtain edge intersection using trans_venn class
-#' library(microeco)
-#' tmp1 <- trans_venn$new(tmp)
+#' tmp1 <- microeco::trans_venn$new(tmp)
 #' # convert intersection result to microtable object
 #' tmp2 <- tmp1$trans_comm()
-#' # extract all the intersection of "IW", "TW" and "CW"
+#' # extract the intersection of all the three networks ("IW", "TW" and "CW")
 #' test <- subset_network(soil_amp_network, venn = tmp2, name = "IW&TW&CW")
 #' # test is a trans_network object
 #' }

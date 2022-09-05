@@ -1,6 +1,7 @@
 #' The soil_amp data
 #'
-#' The soil_amp data is the 16S rRNA gene amplicon sequencing dataset of Chinese wetland soil.
+#' The soil_amp data is the 16S rRNA gene amplicon sequencing dataset of Chinese wetland soils.
+#' Reference: An et al. 2019 <doi:10.1016/j.geoderma.2018.09.035>; Liu et al. 2022 <10.1016/j.geoderma.2022.115866>
 #'
 #' @docType data
 #' @keywords microtable
@@ -11,6 +12,7 @@ NULL
 #' The soil_amp_network data
 #'
 #' The soil_amp_network data is a list storing three trans_network objects created based on soil_amp data.
+#' Three networks are created for IW, CW and TW groups, respectively.
 #'
 #' @docType data
 #' @keywords list

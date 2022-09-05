@@ -6,7 +6,7 @@
 #' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.
 #' @return data.frame
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(soil_amp_network)
 #' test <- subnet_property(soil_amp_network)
 #' }
@@ -15,7 +15,6 @@ subnet_property <- function(network_list){
 	check_input(network_list)
 	res_property <- data.frame()
 	for(i in names(network_list)){
-		cat(paste0("Run: ", i, " ...\n"))
 		tmp <- data.frame()
 		# extract the feature table used for network
 		tmp_abund <- network_list[[i]]$data_abund %>% t %>% as.data.frame
@@ -23,13 +22,12 @@ subnet_property <- function(network_list){
 			tmp1 <- clone(network_list[[i]])
 			tmp1$res_network <- tmp1$subset_network(node = tmp_abund %>% .[.[, j] != 0, ] %>% rownames, rm_single = TRUE)
 			suppressMessages(tmp1$cal_network_attr())
-			tmp <- rbind(tmp, c(j, tmp1$res_network_attr[, 1, drop = TRUE]))
+			tmp <- rbind(tmp, c(i, j, tmp1$res_network_attr[, 1, drop = TRUE]))
 		}
-		colnames(tmp) <- c("Sample", rownames(tmp1$res_network_attr))
+		colnames(tmp) <- c("Network", "Sample", rownames(tmp1$res_network_attr))
 		res_property <- rbind(res_property, tmp)
 	}
-	rownames(res_property) <- res_property[, 1]
-	res_property <- res_property[, -1]
-	res_property %<>% dropallfactors(char2num = TRUE)
+	# rownames(res_property) <- res_property[, 1]
+	res_property[, 3:ncol(res_property)] %<>% lapply(., as.numeric)
 	res_property
 }

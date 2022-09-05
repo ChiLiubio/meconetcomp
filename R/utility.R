@@ -1,7 +1,6 @@
-#' Check the input data format
-#'
-#' @param input default NULL; character or data.frame; matching table used.
-check_input <- function(input = NULL){
+
+# Check whether the input list has the correct format
+check_input <- function(input){
 	if(!is.list(input)){
 		stop("The input data must a list! Please check the data input!")
 	}
@@ -11,3 +10,4 @@ check_input <- function(input = NULL){
 		}
 	}
 }
+

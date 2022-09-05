@@ -2,7 +2,7 @@
 % Please edit documentation in R/cal_module.R
 \name{cal_module}
 \alias{cal_module}
-\title{Assign modules to networks}
+\title{Assign modules to each network}
 \usage{
 cal_module(
   network_list,
@@ -22,14 +22,13 @@ see cal_module function of \code{\link{trans_network}} class for more algorithms
 \item{...}{other parameters (except for method) passed to cal_module function of \code{\link{trans_network}} class.}
 }
 \value{
-list.
+list, with module attribute in nodes of each network
 }
 \description{
-Calculating modularity of networks and assign the modules to nodes in the networks.
+Calculating modularity of networks and assign the modules to nodes for each network.
 }
 \examples{
-\dontrun{
 data(soil_amp_network)
-soil_amp_network \%<>\% cal_module
-}
+soil_amp_network <- cal_module(soil_amp_network)
+
 }

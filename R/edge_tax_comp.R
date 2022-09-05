@@ -9,17 +9,16 @@
 #' @param rel default TRUE; TRUE represents using ratio, the denominator is the number of selected edges; FALSE represents the absolute number of the sum of edges.
 #' @return data.frame
 #' @examples
-#' \dontrun{
 #' data(soil_amp_network)
 #' test <- edge_tax_comp(soil_amp_network)
 #' # test is a microtable object
-#' }
+#' 
 #' @export
 edge_tax_comp <- function(network_list, taxrank = "Phylum", label = "+", rel = TRUE){
 	check_input(network_list)
 	source_compare <- NULL
 	for(i in names(network_list)){
-		network_list[[i]]$cal_sum_links(taxa_level = taxrank)
+		suppressMessages(network_list[[i]]$cal_sum_links(taxa_level = taxrank))
 		if(label == "+"){
 			tmp1 <- network_list[[i]]$res_sum_links_pos
 		}else{

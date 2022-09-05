@@ -1,17 +1,16 @@
-#' Generate a microtable object with edge pair distributions across networks
+#' Generate a microtable object with paired nodes distributions of edges across networks
 #'
 #' @description
-#' Generate a microtable object with edge pair distributions across networks. Useful for the edge comparisons across different networks.
+#' Generate a microtable object with paired nodes distributions of edges across networks. Useful for the edge comparisons across different networks.
 #' The return otu_table in microtable object has the binary numbers in which 1 represents the presence of the edge in the corresponding network.
 #'
 #' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.
 #' @return microtable object
 #' @examples
-#' \dontrun{
 #' data(soil_amp_network)
 #' test <- edge_comp(soil_amp_network)
 #' # test is a microtable object
-#' }
+#' 
 #' @export
 edge_comp <- function(network_list){
 	check_input(network_list)
@@ -23,7 +22,7 @@ edge_comp <- function(network_list){
 	venn_table <- venn_table[, -1]
 	venn_table[is.na(venn_table)] <- 0
 	# create a new microtable object
-	tmp <- microtable$new(otu_table = venn_table)
+	tmp <- suppressMessages(microtable$new(otu_table = venn_table))
 	tmp
 }
 

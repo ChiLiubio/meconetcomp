@@ -22,9 +22,8 @@ data.frame
 Taxonomic sum of linked nodes in edges across networks.
 }
 \examples{
-\dontrun{
 data(soil_amp_network)
 test <- edge_tax_comp(soil_amp_network)
 # test is a microtable object
-}
+
 }

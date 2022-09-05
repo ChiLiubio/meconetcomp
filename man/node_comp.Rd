@@ -4,22 +4,24 @@
 \alias{node_comp}
 \title{Generate a microtable object with node distributions across networks}
 \usage{
-node_comp(network_list, degree = 1)
+node_comp(network_list, property = "name")
 }
 \arguments{
 \item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.}
 
-\item{degree}{default 1; the threshold of degree of nodes remained in the network.}
+\item{property}{default "name"; a colname of res_node_table in each network; 
+the default "name" represents using node presence/absence information in the otu_table of final output, in which
+1 represents presence of the node in the corresponding network; 
+For other options (such as degree), the results in the output otu_table are the actual values of res_node_table.}
 }
 \value{
 microtable object
 }
 \description{
 Generate a microtable object with node distributions across networks. Useful for the node information comparisons across different networks.
-The return otu_table in microtable object has the binary number that 1 represent presence of the node in the corresponding network.
 }
 \examples{
-\dontrun{
+\donttest{
 data(soil_amp_network)
 test <- node_comp(soil_amp_network)
 # test is a microtable object

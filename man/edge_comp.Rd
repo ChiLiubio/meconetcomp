@@ -2,7 +2,7 @@
 % Please edit documentation in R/edge_comp.R
 \name{edge_comp}
 \alias{edge_comp}
-\title{Generate a microtable object with edge pair distributions across networks}
+\title{Generate a microtable object with paired nodes distributions of edges across networks}
 \usage{
 edge_comp(network_list)
 }
@@ -13,13 +13,12 @@ edge_comp(network_list)
 microtable object
 }
 \description{
-Generate a microtable object with edge pair distributions across networks. Useful for the edge comparisons across different networks.
+Generate a microtable object with paired nodes distributions of edges across networks. Useful for the edge comparisons across different networks.
 The return otu_table in microtable object has the binary numbers in which 1 represents the presence of the edge in the corresponding network.
 }
 \examples{
-\dontrun{
 data(soil_amp_network)
 test <- edge_comp(soil_amp_network)
 # test is a microtable object
-}
+
 }

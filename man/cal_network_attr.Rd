@@ -2,7 +2,7 @@
 % Please edit documentation in R/cal_network_attr.R
 \name{cal_network_attr}
 \alias{cal_network_attr}
-\title{Calculate network topological properties}
+\title{Calculate network topological property for each network}
 \usage{
 cal_network_attr(network_list)
 }
@@ -16,8 +16,7 @@ data.frame
 Calculate the topological properties of all the networks and merge the results into one table.
 }
 \examples{
-\dontrun{
 data(soil_amp_network)
 test <- cal_network_attr(soil_amp_network)
-}
+
 }

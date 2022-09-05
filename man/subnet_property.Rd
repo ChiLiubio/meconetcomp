@@ -16,7 +16,7 @@ data.frame
 Extracting sub-network according to the presence of features in each sample across networks and calculate the sub-network properties.
 }
 \examples{
-\dontrun{
+\donttest{
 data(soil_amp_network)
 test <- subnet_property(soil_amp_network)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_edge_table.R
 \name{get_edge_table}
 \alias{get_edge_table}
-\title{Get edge property tables from networks}
+\title{Get edge property table for each network}
 \usage{
 get_edge_table(network_list)
 }
@@ -10,14 +10,13 @@ get_edge_table(network_list)
 \item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.}
 }
 \value{
-list
+list, with res_edge_table in each network
 }
 \description{
-Get edge property tables from a list with multiple networks.
+Get edge property table for each network in the list with multiple networks.
 }
 \examples{
-\dontrun{
 data(soil_amp_network)
-soil_amp_network \%<>\% get_edge_table
-}
+soil_amp_network <- get_edge_table(soil_amp_network)
+
 }
