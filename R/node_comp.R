@@ -20,7 +20,7 @@ node_comp <- function(network_list, property = "name"){
 	check_input(network_list)
 	for(i in names(network_list)){
 		if(is.null(network_list[[i]]$res_node_table)){
-			network_list[[i]]$get_node_table(node_roles = FALSE)
+			suppressMessages(network_list[[i]]$get_node_table(node_roles = FALSE))
 		}
 		if(! property %in% colnames(network_list[[i]]$res_node_table)){
 			stop("Input property is not a colname of res_node_table in network ", i, " !")

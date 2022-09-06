@@ -29,7 +29,7 @@ edge_comp <- function(network_list){
 # inner function
 get_edge_pair <- function(network, raw_table, network_name){
 	if(is.null(network$res_edge_table)){
-		network$get_edge_table()
+		suppressMessages(network$get_edge_table())
 	}
 	edge_nodes <- network$res_edge_table[, 1:2] %>% t %>% as.data.frame
 	# make the names of paired nodes ordered

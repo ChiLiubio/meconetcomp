@@ -55,7 +55,7 @@ edge_tax_comp <- function(network_list, taxrank = "Phylum", label = "+", rel = T
 		for(i in names(network_list)){
 			if(i %in% colnames(source_compare)){
 				if(is.null(network_list[[i]]$res_edge_table)){
-					network_list[[i]]$get_edge_table()
+					suppressMessages(network_list[[i]]$get_edge_table())
 				}
 				tmp1 <- network_list[[i]]$res_edge_table
 				tmp1 %<>% .[.$label %in% label, ]
