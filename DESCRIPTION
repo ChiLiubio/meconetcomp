@@ -1,7 +1,7 @@
 Package: meconetcomp
 Type: Package
 Title: Compare Microbial Networks of 'trans_network' Class of 'microeco' Package
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: c(person("Chi", "Liu", role = c("aut", "cre"), email = "liuchi0426@126.com"),
               person("Minjie", "Yao", role = "ctb", email = "yaomj@fafu.edu.cn"),
               person("Xiangzhen", "Li", role = "ctb", email = "lixz@cib.ac.cn")
@@ -12,13 +12,13 @@ Description: Compare microbial co-occurrence networks created from 'trans_networ
     This package is the extension of 'trans_network' class of 'microeco' package and especially useful when different networks are constructed and analyzed simultaneously.
 URL: https://github.com/ChiLiubio/meconetcomp
 Depends: R (>= 3.5.0)
-Imports: microeco, magrittr, dplyr, igraph, reshape2
-Suggests: rgexf, ape, file2meco
+Imports: R6, microeco (>= 0.12.0), magrittr, dplyr, igraph, reshape2, ggpubr
+Suggests: rgexf, ape, file2meco, agricolae
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2022-09-04
+Packaged: 2022-10-04
 Repository: CRAN
-Date/Publication: 2022-09-07
-RoxygenNote: 7.1.2
+Date/Publication: 2022-10-04
+RoxygenNote: 7.2.1

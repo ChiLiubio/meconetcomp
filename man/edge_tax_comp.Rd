@@ -7,16 +7,17 @@
 edge_tax_comp(network_list, taxrank = "Phylum", label = "+", rel = TRUE)
 }
 \arguments{
-\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.}
+\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.}
 
 \item{taxrank}{default "Phylum"; Which taxonomic level is used for the sum of nodes in edges.}
 
-\item{label}{default "+"; "+" or "-" or c("+", "-"); the edge label used for the selection of edges for the sum.}
+\item{label}{default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges for the sum.}
 
-\item{rel}{default TRUE; TRUE represents using ratio, the denominator is the number of selected edges; FALSE represents the absolute number of the sum of edges.}
+\item{rel}{default \code{TRUE}; \code{TRUE} represents using ratio, the denominator is the number of selected edges; 
+\code{FALSE} represents the absolute number of the sum of edges.}
 }
 \value{
-data.frame
+\code{data.frame}
 }
 \description{
 Taxonomic sum of linked nodes in edges across networks.

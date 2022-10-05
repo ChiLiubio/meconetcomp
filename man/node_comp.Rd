@@ -7,15 +7,15 @@
 node_comp(network_list, property = "name")
 }
 \arguments{
-\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.}
+\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.}
 
-\item{property}{default "name"; a colname of res_node_table in each network; 
+\item{property}{default "name"; a colname of \code{res_node_table} in each network; 
 the default "name" represents using node presence/absence information in the otu_table of final output, in which
 1 represents presence of the node in the corresponding network; 
-For other options (such as degree), the results in the output otu_table are the actual values of res_node_table.}
+For other options (such as degree), the results in the output otu_table are the actual values of \code{res_node_table}.}
 }
 \value{
-microtable object
+\code{microtable} object
 }
 \description{
 Generate a microtable object with node distributions across networks. Useful for the node information comparisons across different networks.

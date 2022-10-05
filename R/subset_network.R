@@ -3,10 +3,10 @@
 #' @description
 #' Extracting a network according to the edge intersection of networks.
 #' 
-#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.
-#' @param venn default NULL; a microtable object which must be converted by trans_comm function of trans_venn class.
-#' @param name default NULL; integer or character; must be a number or one of colnames of the otu_table in venn.
-#' @return a trans_network object, with only the extracted edges in the network
+#' @param network_list a list with multiple networks; all the networks should be \code{trans_network} object created from \code{\link{trans_network}} class of microeco package.
+#' @param venn default NULL; a \code{microtable} object which must be converted by \code{trans_comm} function of \code{trans_venn} class.
+#' @param name default NULL; integer or character; must be a number or one of colnames of the \code{otu_table} in the input \code{venn} parameter.
+#' @return \code{trans_network} object, with only the extracted edges in the network
 #' @examples
 #' \donttest{
 #' data(soil_amp_network)

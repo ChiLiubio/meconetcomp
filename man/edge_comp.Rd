@@ -2,7 +2,7 @@
 % Please edit documentation in R/edge_comp.R
 \name{edge_comp}
 \alias{edge_comp}
-\title{Generate a microtable object with paired nodes distributions of edges across networks}
+\title{Generate a \code{microtable} object with paired nodes distributions of edges across networks}
 \usage{
 edge_comp(network_list)
 }
@@ -10,11 +10,11 @@ edge_comp(network_list)
 \item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.}
 }
 \value{
-microtable object
+\code{microtable} object
 }
 \description{
-Generate a microtable object with paired nodes distributions of edges across networks. Useful for the edge comparisons across different networks.
-The return otu_table in microtable object has the binary numbers in which 1 represents the presence of the edge in the corresponding network.
+Generate a \code{microtable} object with paired nodes distributions of edges across networks. Useful for the edge comparisons across different networks.
+The return \code{otu_table} in \code{microtable} object has the binary numbers in which 1 represents the presence of the edge in the corresponding network.
 }
 \examples{
 data(soil_amp_network)

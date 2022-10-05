@@ -3,12 +3,12 @@
 #' @description
 #' Calculating modularity of networks and assign the modules to nodes for each network.
 #'
-#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.
+#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.
 #' @param undirected_method default "cluster_fast_greedy"; the modularity algorithm for undirected network; 
-#'       see cal_module function of \code{\link{trans_network}} class for more algorithms.
+#'       see \code{cal_module} function of \code{\link{trans_network}} class for more algorithms.
 #' @param directed_method default 'cluster_optimal'; the modularity algorithm for directed network.
-#' @param ... other parameters (except for method) passed to cal_module function of \code{\link{trans_network}} class.
-#' @return list, with module attribute in nodes of each network
+#' @param ... other parameters (except for method) passed to \code{cal_module} function of \code{\link{trans_network}} class.
+#' @return \code{list}, with module attribute in nodes of each network
 #' @examples
 #' data(soil_amp_network)
 #' soil_amp_network <- cal_module(soil_amp_network)

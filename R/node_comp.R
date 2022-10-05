@@ -3,12 +3,12 @@
 #' @description
 #' Generate a microtable object with node distributions across networks. Useful for the node information comparisons across different networks.
 #' 
-#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.
-#' @param property default "name"; a colname of res_node_table in each network; 
+#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.
+#' @param property default "name"; a colname of \code{res_node_table} in each network; 
 #'    the default "name" represents using node presence/absence information in the otu_table of final output, in which
 #'    1 represents presence of the node in the corresponding network; 
-#'    For other options (such as degree), the results in the output otu_table are the actual values of res_node_table.
-#' @return microtable object
+#'    For other options (such as degree), the results in the output otu_table are the actual values of \code{res_node_table}.
+#' @return \code{microtable} object
 #' @examples
 #' \donttest{
 #' data(soil_amp_network)

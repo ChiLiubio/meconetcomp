@@ -3,11 +3,12 @@
 #' @description
 #' Taxonomic sum of linked nodes in edges across networks.
 #'
-#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.
+#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.
 #' @param taxrank default "Phylum"; Which taxonomic level is used for the sum of nodes in edges.
-#' @param label default "+"; "+" or "-" or c("+", "-"); the edge label used for the selection of edges for the sum.
-#' @param rel default TRUE; TRUE represents using ratio, the denominator is the number of selected edges; FALSE represents the absolute number of the sum of edges.
-#' @return data.frame
+#' @param label default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges for the sum.
+#' @param rel default \code{TRUE}; \code{TRUE} represents using ratio, the denominator is the number of selected edges; 
+#'   \code{FALSE} represents the absolute number of the sum of edges.
+#' @return \code{data.frame}
 #' @examples
 #' data(soil_amp_network)
 #' test <- edge_tax_comp(soil_amp_network)

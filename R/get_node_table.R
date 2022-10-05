@@ -3,9 +3,9 @@
 #' @description
 #' Get node property table for each network in the list with multiple networks.
 #'
-#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.
+#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.
 #' @param ... parameter passed to get_node_table function of \code{\link{trans_network}} class.
-#' @return list, with res_node_table in each network
+#' @return \code{list}, with \code{res_node_table} in each network
 #' @examples
 #' \donttest{
 #' data(soil_amp_network)
