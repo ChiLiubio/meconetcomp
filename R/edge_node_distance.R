@@ -1,8 +1,8 @@
 #' @title Perform the distance distribution of paired nodes in edges across networks.
 #'
 #' @description
-#' This class is a wrapper for a series of analysis on the distance distribution 
-#' of paired nodes in edges across networks and the differential test.
+#' This class is a wrapper for a series of analysis on the distance values 
+#' of paired nodes in edges across networks, including distance matrix conversion, the differential test and the visualization.
 #'
 #' @export
 edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
@@ -10,16 +10,16 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 		#' @param network_list a list with multiple networks; all the networks should be \code{trans_network} object 
 		#' 	 created from \code{\link{trans_network}} class of microeco package.
 		#' @param dis_matrix default NULL; the distance matrix of nodes, used for the value extraction; 
-		#' 	 must be a symmetrical matrix with both colnames and rownames.
+		#' 	 must be a symmetrical matrix with both colnames and rownames (i.e. feature names).
 		#' @param label default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges.
 		#' @param with_module default FALSE; whether show the module classification of nodes in the result.
 		#' @param module_thres default 2; the threshold of the nodes number of modules remained when \code{with_module = TRUE}.
-		#' @return \code{data_table} in the object
+		#' @return \code{data_table}, stored in the object
 		#' @examples
 		#' \donttest{
 		#' data(soil_amp_network)
 		#' data(soil_amp)
-		#' # select a small dataset to speed up the calculation
+		#' # filter useless features to speed up the calculation
 		#' node_names <- unique(unlist(lapply(soil_amp_network, function(x){colnames(x$data_abund)})))
 		#' filter_soil_amp <- microeco::clone(soil_amp)
 		#' filter_soil_amp$otu_table <- filter_soil_amp$otu_table[node_names, ]
@@ -27,12 +27,21 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 		#' # obtain phylogenetic distance matrix
 		#' phylogenetic_distance <- as.matrix(cophenetic(filter_soil_amp$phylo_tree))
 		#' # choose the positive labels
-		#' t1 <- edge_node_distance$new(network_list = soil_amp_network, dis_matrix = phylogenetic_distance, label = "+")
+		#' t1 <- edge_node_distance$new(network_list = soil_amp_network, 
+		#' 	 dis_matrix = phylogenetic_distance, label = "+")
 		#' }
 		initialize = function(network_list, dis_matrix = NULL, label = "+", with_module = FALSE, module_thres = 2){
 			check_input(network_list)
 			if(is.null(dis_matrix)){
 				stop("Please provide dis_matrix parameter!")
+			}
+			if(!is.logical(with_module)){
+				stop("The parameter with_module must be logical!")
+			}
+			if(with_module){
+				if(length(label) > 1){
+					stop("The label parameter must be '+' or '-' when with_module = TRUE!")
+				}
 			}
 			res_table <- data.frame()
 			for(i in names(network_list)){
@@ -50,11 +59,12 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 			res_table %<>% .[!is.na(.$Value), ]
 			self$data_table <- res_table
 			self$label <- label
+			self$with_module <- with_module
 		},
 		#' @description
 		#' Differential test across networks.
 		#'
-		#' @param method default "KW"; see the following available options:
+		#' @param method default "anova"; see the following available options:
 		#'   \describe{
 		#'     \item{\strong{'anova'}}{Duncan's multiple range test for anova}
 		#'     \item{\strong{'KW'}}{KW: Kruskal-Wallis Rank Sum Test for all groups (>= 2)}
@@ -73,10 +83,30 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 			res$Measure <- "Value"
 			# two cases: only one type of label and two types of labels
 			if(length(unique(res$label)) == 1){
-				suppressMessages(tmp2 <- trans_alpha$new(dataset = NULL))
-				tmp2$data_alpha <- res
-				tmp2$group <- "Group"
-				tmp2$cal_diff(method = method, measure = "Value", ...)
+				if(!self$with_module){
+					suppressMessages(tmp2 <- trans_alpha$new(dataset = NULL))
+					tmp2$data_alpha <- res
+					tmp2$group <- "Group"
+					tmp2$cal_diff(method = method, measure = "Value", ...)
+				}else{
+					res$raw_Group <- res$Group
+					res$Module <- paste0(res$Group, " - ", res$module)
+					suppressMessages(tmp2 <- trans_alpha$new(dataset = NULL))
+					tmp2$data_alpha <- res
+					tmp2$group <- "Module"
+					if(method != "anova"){
+						message("For multiple labels, only anova can be used!")
+					}
+					tmp2$cal_diff(method = "anova", measure = "Value", ...)
+					split_raw <- strsplit(rownames(tmp2$res_diff), split = " - ")
+					tmp2$res_diff$by_group <- lapply(split_raw, function(x){x[1]}) %>% unlist
+					tmp2$res_diff$Group <- lapply(split_raw, function(x){x[2]}) %>% unlist
+					res$by_group <- res$raw_Group
+					res$Module <- res$module
+					res$Module %<>% factor(., levels = unique(.))
+					tmp2$data_alpha <- res
+					tmp2$by_group <- "by_group"
+				}
 			}else{
 				res$raw_Group <- res$Group
 				res$Label <- paste0(res$Group, " - ", res$label)
@@ -110,12 +140,10 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 		#' \donttest{
 		#' t1$plot(boxplot_add = "none", add_sig = TRUE)
 		#' }
-		plot = function(
-			...
-			){
+		plot = function(...){
 			self$tmp_diff$plot_alpha(measure = "Value", ...)
 		}
-		),
+	),
 	private = list(
 		get_matrix_value = function(network, label, dis_matrix, group_name, with_module, module_thres){
 			if(!with_module){

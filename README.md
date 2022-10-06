@@ -5,7 +5,7 @@ Compare microbial co-occurrence networks based on the trans_network class of mic
 
 [![CRAN](https://www.r-pkg.org/badges/version/meconetcomp)](https://cran.r-project.org/web/packages/meconetcomp/index.html)
 [![CRAN](https://cranlogs.r-pkg.org/badges/grand-total/meconetcomp)](https://cran.r-project.org/web/packages/meconetcomp/index.html)
-![](https://img.shields.io/badge/Release-v0.1.0-blue.svg) ![](https://img.shields.io/badge/Test-v0.1.1-red.svg)
+![](https://img.shields.io/badge/Release-v0.1.0-blue.svg) ![](https://img.shields.io/badge/Test-v0.2.0-red.svg)
 
 
 ## Install meconetcomp

@@ -4,8 +4,8 @@
 \alias{edge_node_distance}
 \title{Perform the distance distribution of paired nodes in edges across networks.}
 \description{
-This class is a wrapper for a series of analysis on the distance distribution 
-of paired nodes in edges across networks and the differential test.
+This class is a wrapper for a series of analysis on the distance values 
+of paired nodes in edges across networks, including distance matrix conversion, the differential test and the visualization.
 }
 \examples{
 
@@ -16,7 +16,7 @@ of paired nodes in edges across networks and the differential test.
 \donttest{
 data(soil_amp_network)
 data(soil_amp)
-# select a small dataset to speed up the calculation
+# filter useless features to speed up the calculation
 node_names <- unique(unlist(lapply(soil_amp_network, function(x){colnames(x$data_abund)})))
 filter_soil_amp <- microeco::clone(soil_amp)
 filter_soil_amp$otu_table <- filter_soil_amp$otu_table[node_names, ]
@@ -24,7 +24,8 @@ filter_soil_amp$tidy_dataset()
 # obtain phylogenetic distance matrix
 phylogenetic_distance <- as.matrix(cophenetic(filter_soil_amp$phylo_tree))
 # choose the positive labels
-t1 <- edge_node_distance$new(network_list = soil_amp_network, dis_matrix = phylogenetic_distance, label = "+")
+t1 <- edge_node_distance$new(network_list = soil_amp_network, 
+	 dis_matrix = phylogenetic_distance, label = "+")
 }
 
 ## ------------------------------------------------
@@ -73,7 +74,7 @@ t1$plot(boxplot_add = "none", add_sig = TRUE)
 created from \code{\link{trans_network}} class of microeco package.}
 
 \item{\code{dis_matrix}}{default NULL; the distance matrix of nodes, used for the value extraction; 
-must be a symmetrical matrix with both colnames and rownames.}
+must be a symmetrical matrix with both colnames and rownames (i.e. feature names).}
 
 \item{\code{label}}{default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges.}
 
@@ -84,14 +85,14 @@ must be a symmetrical matrix with both colnames and rownames.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\code{data_table} in the object
+\code{data_table}, stored in the object
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{\donttest{
 data(soil_amp_network)
 data(soil_amp)
-# select a small dataset to speed up the calculation
+# filter useless features to speed up the calculation
 node_names <- unique(unlist(lapply(soil_amp_network, function(x){colnames(x$data_abund)})))
 filter_soil_amp <- microeco::clone(soil_amp)
 filter_soil_amp$otu_table <- filter_soil_amp$otu_table[node_names, ]
@@ -99,7 +100,8 @@ filter_soil_amp$tidy_dataset()
 # obtain phylogenetic distance matrix
 phylogenetic_distance <- as.matrix(cophenetic(filter_soil_amp$phylo_tree))
 # choose the positive labels
-t1 <- edge_node_distance$new(network_list = soil_amp_network, dis_matrix = phylogenetic_distance, label = "+")
+t1 <- edge_node_distance$new(network_list = soil_amp_network, 
+	 dis_matrix = phylogenetic_distance, label = "+")
 }
 }
 \if{html}{\out{</div>}}
@@ -122,7 +124,7 @@ Differential test across networks.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{method}}{default "KW"; see the following available options:
+\item{\code{method}}{default "anova"; see the following available options:
 \describe{
   \item{\strong{'anova'}}{Duncan's multiple range test for anova}
   \item{\strong{'KW'}}{KW: Kruskal-Wallis Rank Sum Test for all groups (>= 2)}
