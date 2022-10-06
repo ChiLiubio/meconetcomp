@@ -1,7 +1,7 @@
 
-# meconetcomp
+# meconetcomp <a href="https://chiliubio.github.io/microeco_tutorial/"><img src="https://user-images.githubusercontent.com/20815519/194209931-9db2da22-d24b-4d8f-aee8-97883210e4e9.png" width=150 align="right" ></a>
 
-Compare microbial co-occurrence networks based on the trans_network class of microeco package
+Compare microbial co-occurrence networks based on the microeco package
 
 [![CRAN](https://www.r-pkg.org/badges/version/meconetcomp)](https://cran.r-project.org/web/packages/meconetcomp/index.html)
 [![CRAN](https://cranlogs.r-pkg.org/badges/grand-total/meconetcomp)](https://cran.r-project.org/web/packages/meconetcomp/index.html)
