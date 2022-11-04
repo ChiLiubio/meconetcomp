@@ -55,6 +55,7 @@ subset_network <- function(network_list, venn = NULL, name = NULL){
 	# identify the sample name
 	if(grepl("&", name)){
 		name_split <- strsplit(name, "&") %>% unlist
+		# use the first as the starting network
 		name_split_use <- name_split[1]
 	}else{
 		name_split_use <- name_split <- name
@@ -66,21 +67,42 @@ subset_network <- function(network_list, venn = NULL, name = NULL){
 	}
 	
 	tmp2 <- network_tmp1$res_network
-	tmp2_edge_table <- igraph::as_data_frame(tmp2, what = "edges")
-	# make the names of paired nodes ordered
-	edge_nodes <- tmp2_edge_table[, 1:2] %>% t %>% as.data.frame
-	sorted_edge_nodes <- lapply(edge_nodes, function(x){sort(x) %>% paste0(., collapse = " -- ")}) %>% unlist
+	sorted_edge_nodes <- get_sorted_edge_name(tmp2) %>% rownames
 	sub_network <- igraph::delete_edges(tmp2, which(!(sorted_edge_nodes %in% features)))
-	igraph::E(sub_network)$weight <- 1
-	# delete nodes without edges
+	# delete nodes without edges in sub_network
 	nodes_raw <- igraph::V(sub_network)$name
 	edges <- igraph::as_data_frame(sub_network, what = "edges")
 	delete_nodes <- nodes_raw %>% .[! . %in% as.character(c(edges[,1], edges[,2]))]
 	if(length(delete_nodes) > 0){
 		sub_network %<>% igraph::delete_vertices(delete_nodes)
 	}
+	if(length(name_split) > 1){
+		# assign weight with the mean weight across related network
+		network_list_related <- list()
+		for(i in name_split){
+			network_list_related[[i]] <- network_list[[i]]
+		}
+		if(all(unlist(lapply(network_list_related, function(x){!is.null(igraph::E(x$res_network)$weight)})))){
+			# first generate a list to store all the edge tables
+			all_edge_tables <- list()
+			for(j in names(network_list_related)){
+				tmp_table <- get_sorted_edge_name(network_list_related[[j]]$res_network)
+				all_edge_tables[[j]] <- tmp_table[features, "weight", drop = FALSE]
+				colnames(all_edge_tables[[j]])[1] <- paste0("weight_", j)
+			}
+			all_edge_tables %<>% do.call(cbind, .)
+			# get sub_network edge table
+			sub_network_edge_table <- get_sorted_edge_name(sub_network)
+			igraph::E(sub_network)$weight <- apply(all_edge_tables, 1, mean)[rownames(sub_network_edge_table)]
+			message('The weight of each edge in extracted network is the mean across networks ...')
+		}else{
+			igraph::E(sub_network)$weight <- 1
+			message('Part of networks have no weight attribute of edges. Use 1 as the final weight for all edges in extracted network ...')
+		}
+	}
+
 	nodes_use <- igraph::V(sub_network)$name
-	
+	# select a trans_network object and change files in it
 	res <- clone(network_tmp1)
 	res$res_network <- sub_network
 	
@@ -98,3 +120,16 @@ subset_network <- function(network_list, venn = NULL, name = NULL){
 	# return trans_network
 	res
 }
+
+
+# inner function
+# make the names of paired nodes in edge ordered
+get_sorted_edge_name <- function(network){
+	tmp1 <- igraph::as_data_frame(network, what = "edges")
+	tmp2 <- tmp1[, 1:2] %>% t %>% as.data.frame
+	tmp3 <- lapply(tmp2, function(x){sort(x) %>% paste0(., collapse = " -- ")}) %>% unlist
+	rownames(tmp1) <- tmp3
+	# output table
+	tmp1
+}
+
