@@ -1,7 +1,7 @@
 Package: meconetcomp
 Type: Package
 Title: Compare Microbial Networks of 'trans_network' Class of 'microeco' Package
-Version: 0.2.1
+Version: 0.3.0
 Authors@R: c(person("Chi", "Liu", role = c("aut", "cre"), email = "liuchi0426@126.com"),
               person("Minjie", "Yao", role = "ctb", email = "yaomj@fafu.edu.cn"),
               person("Xiangzhen", "Li", role = "ctb", email = "lixz@cib.ac.cn")
