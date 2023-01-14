@@ -24,6 +24,11 @@ install.packages("devtools")
 devtools::install_github("ChiLiubio/meconetcomp")
 ```
 
+## Tutorial
+
+Please see https://chiliubio.github.io/microeco_tutorial/meconetcomp-package.html for the examples or the help documents.
+
+
 ## Citation
 Chi Liu, Chaonan Li, Yanqiong Jiang, Raymond Jianxiong Zeng, Minjie Yao, and Xiangzhen Li. 2023. 
 "A guide for comparing microbial co-occurrence networks." iMeta. e71. https://doi.org/10.1002/imt2.71
