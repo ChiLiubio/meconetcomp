@@ -31,7 +31,7 @@ Please see https://chiliubio.github.io/microeco_tutorial/meconetcomp-package.htm
 
 ## Citation
 Chi Liu, Chaonan Li, Yanqiong Jiang, Raymond Jianxiong Zeng, Minjie Yao, and Xiangzhen Li. 2023. 
-"A guide for comparing microbial co-occurrence networks." iMeta. e71. https://doi.org/10.1002/imt2.71
+"A guide for comparing microbial co-occurrence networks." iMeta. 2(1): e71. https://doi.org/10.1002/imt2.71
 
 
 ## Contributing

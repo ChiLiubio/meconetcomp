@@ -1,18 +1,14 @@
-citHeader("To cite meconetcomp in publications use:")
 
-citEntry(entry="article",
+bibentry(bibtype = "Article",
+         textVersion = "Chi Liu, Chaonan Li, Yanqiong Jiang, Raymond Jianxiong Zeng, Minjie Yao, and Xiangzhen Li. 2023. A guide for comparing microbial co-occurrence networks. iMeta. 2(1): e71.",
+         header = "To cite meconetcomp in publications use:",
          title = "A guide for comparing microbial co-occurrence networks",
-         author = personList( as.person("Chi Liu"),
-                              as.person("Chaonan Li"),
-                              as.person("Yanqiong Jiang"),
-                              as.person("Raymond Jianxiong Zeng"),
-                              as.person("Minjie Yao*"),
-                              as.person("Xiangzhen Li*")),
+         author = c("Chi Liu", "Chaonan Li", "Yanqiong Jiang", "Raymond Jianxiong Zeng", "Minjie Yao", "Xiangzhen Li"),
          year = "2023",
          journal = "iMeta",
+         volume = "2",
+		 issue = "1",
          pages = "e71",
          doi = "10.1002/imt2.71",
-         url = "https://doi.org/10.1002/imt2.71",
-         textVersion = "Chi Liu, Chaonan Li, Yanqiong Jiang, Raymond Jianxiong Zeng, Minjie Yao, and Xiangzhen Li. 2023. A guide for comparing microbial co-occurrence networks. iMeta. e71."
+         url = "https://doi.org/10.1002/imt2.71"
 )
-
