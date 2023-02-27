@@ -26,7 +26,7 @@ devtools::install_github("ChiLiubio/meconetcomp")
 
 ## Tutorial
 
-Please see https://chiliubio.github.io/microeco_tutorial/meconetcomp-package.html for the examples or the help documents.
+https://chiliubio.github.io/microeco_tutorial/meconetcomp-package.html
 
 
 ## Citation
@@ -39,7 +39,3 @@ Chi Liu, Chaonan Li, Yanqiong Jiang, Raymond Jianxiong Zeng, Minjie Yao, and Xia
 We welcome any contribution \! 
 Any idea/suggestion will be considered.
 By participating in this project you agree to abide by the terms outlined in the [Contributor Code of Conduct](CONDUCT.md).
-
-
-## References
-  - https://chiliubio.github.io/microeco_tutorial/references.html#references
