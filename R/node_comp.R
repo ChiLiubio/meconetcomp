@@ -35,7 +35,7 @@ node_comp <- function(network_list, property = "name"){
 		if(i == names(network_list)[1]){
 			venn_table <- tmp
 		}else{
-			venn_table <- dplyr::left_join(venn_table, tmp, by = c("name" = "name"))
+			venn_table <- dplyr::full_join(venn_table, tmp, by = c("name" = "name"))
 		}
 	}
 	rownames(venn_table) <- venn_table[, 1]
