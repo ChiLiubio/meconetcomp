@@ -90,7 +90,7 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 					tmp2$cal_diff(method = method, measure = "Value", ...)
 				}else{
 					res$raw_Group <- res$Group
-					res$Module <- paste0(res$Group, " - ", res$module)
+					res$Module <- paste0(res$Group, " jointmark ", res$module)
 					suppressMessages(tmp2 <- trans_alpha$new(dataset = NULL))
 					tmp2$data_alpha <- res
 					tmp2$group <- "Module"
@@ -98,7 +98,7 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 						message("For multiple labels, only anova can be used!")
 					}
 					tmp2$cal_diff(method = "anova", measure = "Value", ...)
-					split_raw <- strsplit(rownames(tmp2$res_diff), split = " - ")
+					split_raw <- strsplit(tmp2$res_diff$Group, split = " jointmark ")
 					tmp2$res_diff$by_group <- lapply(split_raw, function(x){x[1]}) %>% unlist
 					tmp2$res_diff$Group <- lapply(split_raw, function(x){x[2]}) %>% unlist
 					res$by_group <- res$raw_Group
@@ -109,7 +109,8 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 				}
 			}else{
 				res$raw_Group <- res$Group
-				res$Label <- paste0(res$Group, " - ", res$label)
+				# jointmark instead of " - " or "&"
+				res$Label <- paste0(res$Group, " jointmark ", res$label)
 				suppressMessages(tmp2 <- trans_alpha$new(dataset = NULL))
 				tmp2$data_alpha <- res
 				tmp2$group <- "Label"
@@ -117,7 +118,7 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 					message("For multiple labels, only anova can be used!")
 				}
 				tmp2$cal_diff(method = "anova", measure = "Value", ...)
-				split_raw <- strsplit(rownames(tmp2$res_diff), split = " - ")
+				split_raw <- strsplit(tmp2$res_diff$Group, split = " jointmark ")
 				tmp2$res_diff$by_group <- lapply(split_raw, function(x){x[1]}) %>% unlist
 				tmp2$res_diff$Group <- lapply(split_raw, function(x){x[2]}) %>% unlist
 				res$by_group <- res$raw_Group
