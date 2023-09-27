@@ -23,8 +23,6 @@
 #' please read the guideline (\href{https://chiliubio.github.io/microeco_tutorial/notes.html#github-issues}{https://chiliubio.github.io/microeco_tutorial/notes.html#github-issues}).
 #' 
 #' To cite meconetcomp package in publications, please run the following command to get the reference: \code{citation("meconetcomp")}\cr
-#' To read the paper, please turn to the publication website 
-#' (\href{https://onlinelibrary.wiley.com/doi/10.1002/imt2.71}{https://onlinelibrary.wiley.com/doi/10.1002/imt2.71}).
 #' 
 #' Reference:\cr
 #' Chi Liu, Chaonan Li, Yanqiong Jiang, Raymond Jianxiong Zeng, Minjie Yao, and Xiangzhen Li. 2023.
