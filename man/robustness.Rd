@@ -31,7 +31,8 @@ t1$plot()
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{robustness$new(
   network_list,
-  remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_hub")[1],
+  remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_hub",
+    "node_degree")[1],
   remove_ratio = seq(0, 1, 0.1),
   measure = c("Eff")[1],
   run = 10
