@@ -13,7 +13,7 @@ This class is a wrapper for robustness calculation and the visualization.
 ## ------------------------------------------------
 
 \donttest{
-t1$plot(boxplot_add = "none", add_sig = TRUE)
+t1$plot()
 }
 }
 \section{Methods}{
@@ -31,8 +31,8 @@ t1$plot(boxplot_add = "none", add_sig = TRUE)
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{robustness$new(
   network_list,
-  link_remove_strategy = c("Rand")[1],
-  link_remove_perc = seq(0, 1, 0.1),
+  remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_hub")[1],
+  remove_ratio = seq(0, 1, 0.1),
   measure = c("Eff")[1],
   run = 10
 )}\if{html}{\out{</div>}}
@@ -44,19 +44,21 @@ t1$plot(boxplot_add = "none", add_sig = TRUE)
 \item{\code{network_list}}{a list with multiple networks; all the networks should be \code{trans_network} object 
 created from \code{\link{trans_network}} class of microeco package.}
 
-\item{\code{link_remove_strategy}}{default "Rand"; 
+\item{\code{remove_strategy}}{default "edge_rand"; 
 \describe{
-   item{\strong{"Rand"}} {links are randomly removed.}
+   item{\strong{"edge_rand"}} {links are randomly removed.}
+   item{\strong{"edge_strong"}} {links are removed in decreasing order of weight.}
+   item{\strong{"edge_weak"}} {links are removed in increasing order of weight.}
 }}
 
-\item{\code{link_remove_perc}}{default seq(0, 1, 0.1).}
+\item{\code{remove_ratio}}{default seq(0, 1, 0.1).}
 
 \item{\code{measure}}{default "Eff"; the network functioning measures as the representatives of robustness. 
 \describe{
    item{\strong{"Eff"}} {network efficiency.}
 }}
 
-\item{\code{run}}{default 10.}
+\item{\code{run}}{default 10. Replication number applied for the sampling method.}
 }
 \if{html}{\out{</div>}}
 }
@@ -68,15 +70,45 @@ created from \code{\link{trans_network}} class of microeco package.}
 \if{html}{\out{<a id="method-robustness-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-robustness-plot}{}}}
 \subsection{Method \code{plot()}}{
-Plot the distance.
+Plot the simulation results.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{robustness$plot(...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{robustness$plot(
+  color_values = RColorBrewer::brewer.pal(8, "Dark2"),
+  show_point = TRUE,
+  point_size = 1,
+  point_alpha = 0.6,
+  show_errorbar = TRUE,
+  errorbar_position = position_dodge(0),
+  errorbar_size = 1,
+  errorbar_width = 0.1,
+  add_fitting = FALSE,
+  ...
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{parameters pass to \code{plot_alpha} function of \code{trans_alpha} class of \code{microeco} package.}
+\item{\code{color_values}}{colors used for presentation.}
+
+\item{\code{show_point}}{default TRUE; whether show the point.}
+
+\item{\code{point_size}}{default .3; point size value.}
+
+\item{\code{point_alpha}}{default .6; point alpha value.}
+
+\item{\code{show_errorbar}}{default TRUE; whether show the errorbar by using the SD result.}
+
+\item{\code{errorbar_position}}{default position_dodge(0); Position adjustment, either as a string (such as "identity"), 
+or the result of a call to a position adjustment function.}
+
+\item{\code{errorbar_size}}{default 1; errorbar size.}
+
+\item{\code{errorbar_width}}{default 0.1; errorbar width.}
+
+\item{\code{add_fitting}}{default FALSE; whether add fitted line.}
+
+\item{\code{...}}{parameters pass to ggplot2::geom_line (when add_fitting = FALSE) or ggplot2::geom_smooth (when add_fitting = TRUE).}
 }
 \if{html}{\out{</div>}}
 }
@@ -86,7 +118,7 @@ Plot the distance.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{\donttest{
-t1$plot(boxplot_add = "none", add_sig = TRUE)
+t1$plot()
 }
 }
 \if{html}{\out{</div>}}
