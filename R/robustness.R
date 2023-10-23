@@ -22,10 +22,10 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' @param measure default "Eff"; the network functioning measures as the representatives of robustness. 
 		#'   \describe{
 		#' 	 item{\strong{"Eff"}} {network efficiency.}
-		#' 	 item{\strong{"Eigen"}} {natural connectivity, regarded as an average eigenvalue that changes strictly monotonically with the addition or deletion of edges.}		
+		#' 	 item{\strong{"Eigen"}} {natural connectivity, represented as an average eigenvalue that changes strictly monotonically with the addition or deletion of edges.}		
 		#'   }
 		#' @param run default 10. Replication number applied for the sampling method.
-		#' @return \code{res_table}, stored in the object
+		#' @return \code{res_table}, stored in the object.
 		initialize = function(network_list, 
 			remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_rand", "node_hub", "node_degree_high", "node_degree_low")[1], 
 			remove_ratio = seq(0, 1, 0.1), 
@@ -187,7 +187,7 @@ robustness <- R6::R6Class(classname = "robustness",
 			}
 			p <- p + theme_bw()
 			if(length(unique(res_table$remove_strategy)) > 1 | length(unique(res_table$measure)) > 1){
-				p <- p + facet_grid(remove_strategy ~ measure, drop = TRUE, scale = "free", space = "fixed")
+				p <- p + facet_grid(measure ~ remove_strategy, drop = TRUE, scale = "free", space = "fixed")
 			}
 			
 			p

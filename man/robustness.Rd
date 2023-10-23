@@ -61,7 +61,7 @@ created from \code{\link{trans_network}} class of microeco package.}
 \item{\code{measure}}{default "Eff"; the network functioning measures as the representatives of robustness. 
 \describe{
    item{\strong{"Eff"}} {network efficiency.}
-   item{\strong{"Eigen"}} {natural connectivity, regarded as an average eigenvalue that changes strictly monotonically with the addition or deletion of edges.}        
+   item{\strong{"Eigen"}} {natural connectivity, represented as an average eigenvalue that changes strictly monotonically with the addition or deletion of edges.}        
 }}
 
 \item{\code{run}}{default 10. Replication number applied for the sampling method.}
@@ -69,7 +69,7 @@ created from \code{\link{trans_network}} class of microeco package.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\code{res_table}, stored in the object
+\code{res_table}, stored in the object.
 }
 }
 \if{html}{\out{<hr>}}
