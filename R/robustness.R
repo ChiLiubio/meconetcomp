@@ -10,22 +10,26 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	 created from \code{\link{trans_network}} class of microeco package.
 		#' @param remove_strategy default "edge_rand"; 
 		#'   \describe{
-		#' 	 item{\strong{"edge_rand"}} {links are randomly removed.}
-		#' 	 item{\strong{"edge_strong"}} {links are removed in decreasing order of weight.}
-		#' 	 item{\strong{"edge_weak"}} {links are removed in increasing order of weight.}
+		#' 	 item{\strong{"edge_rand"}} {edges are randomly removed.}
+		#' 	 item{\strong{"edge_strong"}} {edges are removed in decreasing order of weight.}
+		#' 	 item{\strong{"edge_weak"}} {edges are removed in increasing order of weight.}
+		#' 	 item{\strong{"node_rand"}} {nodes are removed randomly.}
+		#' 	 item{\strong{"node_hub"}} {node hubs are removed. The hubs include network hubs and module hubs.}
+		#' 	 item{\strong{"node_degree_high"}} {nodes are removed in decreasing order of degree.}
+		#' 	 item{\strong{"node_degree_low"}} {nodes are removed in increasing order of degree.}
 		#'   }
 		#' @param remove_ratio default seq(0, 1, 0.1).
 		#' @param measure default "Eff"; the network functioning measures as the representatives of robustness. 
 		#'   \describe{
 		#' 	 item{\strong{"Eff"}} {network efficiency.}
-		
+		#' 	 item{\strong{"Eigen"}} {natural connectivity, regarded as an average eigenvalue that changes strictly monotonically with the addition or deletion of edges.}		
 		#'   }
 		#' @param run default 10. Replication number applied for the sampling method.
 		#' @return \code{res_table}, stored in the object
 		initialize = function(network_list, 
-			remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_hub", "node_degree")[1], 
+			remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_rand", "node_hub", "node_degree_high", "node_degree_low")[1], 
 			remove_ratio = seq(0, 1, 0.1), 
-			measure = c("Eff")[1], 
+			measure = c("Eff", "Eigen")[1], 
 			run = 10
 			){
 			
@@ -83,12 +87,17 @@ robustness <- R6::R6Class(classname = "robustness",
 							tmp_delete_node_names <- replicate(run, sample(total_hub_names, size = delete_number), simplify = FALSE)
 							delete_node_names[[paste0("node_hub_number_", delete_number)]] <- tmp_delete_node_names
 						}
-						if("node_degree" %in% remove_strategy){
+						if(any(c("node_degree_high", "node_degree_low") %in% remove_strategy)){
 							total_nodes_number <- length(V(network))
 							delete_number <- round(total_nodes_number * i)
+						}
+						if("node_degree_high" %in% remove_strategy){
 							node_names_order <- sort(degree(network), decreasing = TRUE) %>% names
-							tmp_delete_node_names <- node_names_order[1:delete_number] %>% list
-							delete_node_names[[paste0("node_degree_number_", delete_number)]] <- tmp_delete_node_names
+							delete_node_names[[paste0("node_degree_high_number_", delete_number)]] <- node_names_order[1:delete_number] %>% list
+						}
+						if("node_degree_low" %in% remove_strategy){
+							node_names_order <- sort(degree(network), decreasing = FALSE) %>% names
+							delete_node_names[[paste0("node_degree_low_number_", delete_number)]] <- node_names_order[1:delete_number] %>% list
 						}
 						tmp_network_del_list <- lapply(delete_node_names, function(y){
 							lapply(y, function(x){
@@ -101,6 +110,9 @@ robustness <- R6::R6Class(classname = "robustness",
 					tmp_res <- list()
 					if("Eff" %in% measure){
 						tmp_res[["Eff"]] <- private$measure_eff(network_del)
+					}
+					if("Eigen" %in% measure){
+						tmp_res[["Eigen"]] <- private$measure_eigen(network_del)
 					}
 					
 					tmp_res_table <- lapply(names(tmp_res), function(x){
@@ -193,6 +205,21 @@ robustness <- R6::R6Class(classname = "robustness",
 						dis_num <- as.dist(dis_matrix)
 						res_single <- sum(1/dis_num)/(nodes_num * (nodes_num - 1))
 						res_single
+					}
+				})
+			})
+		},
+		measure_eigen = function(all_networks){
+			lapply(all_networks, function(y){
+				lapply(y, function(x){
+					if(length(V(x)) < 2 | length(E(x)) < 2){
+						0
+					}else{
+						am <- as_adjacency_matrix(x)
+						pca <- princomp(am)
+						ev <- (pca$sdev)^2
+						mlam <- log(sum(exp(ev))/length(ev), 10)
+						mlam
 					}
 				})
 			})
