@@ -4,7 +4,7 @@
 \alias{robustness}
 \title{Calculate robustness across networks.}
 \description{
-This class is a wrapper for robustness calculation and the visualization.
+This class is a wrapper for robustness calculation and visualization.
 }
 \examples{
 
@@ -47,21 +47,25 @@ created from \code{\link{trans_network}} class of microeco package.}
 
 \item{\code{remove_strategy}}{default "edge_rand"; 
 \describe{
-   item{\strong{"edge_rand"}} {edges are randomly removed.}
-   item{\strong{"edge_strong"}} {edges are removed in decreasing order of weight.}
-   item{\strong{"edge_weak"}} {edges are removed in increasing order of weight.}
-   item{\strong{"node_rand"}} {nodes are removed randomly.}
-   item{\strong{"node_hub"}} {node hubs are removed. The hubs include network hubs and module hubs.}
-   item{\strong{"node_degree_high"}} {nodes are removed in decreasing order of degree.}
-   item{\strong{"node_degree_low"}} {nodes are removed in increasing order of degree.}
+     \item{\strong{"edge_rand"}}{edges are randomly removed.}
+  \item{\strong{"edge_strong"}}{edges are removed in decreasing order of weight.}
+     \item{\strong{"edge_weak"}}{edges are removed in increasing order of weight.}
+     \item{\strong{"node_rand"}}{nodes are removed randomly.}
+     \item{\strong{"node_hub"}}{node hubs are removed. The hubs include network hubs and module hubs.}
+     \item{\strong{"node_degree_high"}}{nodes are removed in decreasing order of degree.}
+     \item{\strong{"node_degree_low"}}{nodes are removed in increasing order of degree.}
 }}
 
 \item{\code{remove_ratio}}{default seq(0, 1, 0.1).}
 
 \item{\code{measure}}{default "Eff"; the network functioning measures as the representatives of robustness. 
 \describe{
-   item{\strong{"Eff"}} {network efficiency.}
-   item{\strong{"Eigen"}} {natural connectivity, represented as an average eigenvalue that changes strictly monotonically with the addition or deletion of edges.}        
+     \item{\strong{"Eff"}}{network efficiency. The average efficiency of the network is defined:
+           \deqn{Eff = \frac{1}{N(N - 1)} \sum_{i \neq j \in G}\frac{1}{d(i, j)}}
+          where N is the total number of nodes and \emph{d(i,j)} is the shortest path between node i and node j. 
+          When the weight is found in the edge attributes, \eqn{d(i,j)} denotes the weighted shortest path between node i and node j.
+          }
+     \item{\strong{"Eigen"}}{natural connectivity, represented as an average eigenvalue that changes strictly monotonically with the addition or deletion of edges.}        
 }}
 
 \item{\code{run}}{default 10. Replication number applied for the sampling method.}

@@ -19,6 +19,7 @@ Please open the help document by using \code{help} function or by clicking the f
 \code{\link{edge_tax_comp}}\cr
 \code{\link{subset_network}}\cr
 \code{\link{subnet_property}}\cr
+\code{\link{robustness}}\cr
 
 To report bugs or discuss questions, please use Github Issues (\href{https://github.com/ChiLiubio/meconetcomp/issues}{https://github.com/ChiLiubio/meconetcomp/issues}).
 Before creating a new issue, 
