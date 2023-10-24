@@ -64,8 +64,13 @@ created from \code{\link{trans_network}} class of microeco package.}
            \deqn{Eff = \frac{1}{N(N - 1)} \sum_{i \neq j \in G}\frac{1}{d(i, j)}}
           where N is the total number of nodes and \emph{d(i,j)} is the shortest path between node i and node j. 
           When the weight is found in the edge attributes, \eqn{d(i,j)} denotes the weighted shortest path between node i and node j.
+          For more details, please read the references <doi: 10.1007/s11704-016-6108-z> and <doi: 10.1038/s41598-020-60298-7>.
           }
-     \item{\strong{"Eigen"}}{natural connectivity, represented as an average eigenvalue that changes strictly monotonically with the addition or deletion of edges.}        
+     \item{\strong{"Eigen"}}{natural connectivity <doi: 10.1007/s11704-016-6108-z>.
+          The natural connectivity can be regarded as an average eigenvalue that changes strictly monotonically with the addition or deletion of edges. It is defined:
+              \deqn{\bar{\lambda} = \ln(\frac{1}{N} \sum_{i=1}^{N} e^{\lambda~i~})}
+          where \eqn{\lambda~i~} is the \eqn{i}th eigenvalue of the graph adjacency matrix. The lager the value of \eqn{\bar{\lambda}} is, the more robust the network is.
+          }
 }}
 
 \item{\code{run}}{default 10. Replication number applied for the sampling method.}
