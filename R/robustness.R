@@ -19,7 +19,7 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	   \item{\strong{"node_degree_low"}}{nodes are removed in increasing order of degree.}
 		#'   }
 		#' @param remove_ratio default seq(0, 1, 0.1).
-		#' @param measure default "Eff"; the network functioning measures as the representatives of robustness. 
+		#' @param measure default "Eff"; network robustness measures. 
 		#'   \describe{
 		#' 	   \item{\strong{"Eff"}}{network efficiency. The average efficiency of the network is defined:
 		#' 	         \deqn{Eff = \frac{1}{N(N - 1)} \sum_{i \neq j \in G}\frac{1}{d(i, j)}}
@@ -32,13 +32,24 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	   	     \deqn{\bar{\lambda} = \ln(\frac{1}{N} \sum_{i=1}^{N} e^{\lambda~i~})}
 		#' 	   	 where \eqn{\lambda~i~} is the \eqn{i}th eigenvalue of the graph adjacency matrix. The lager the value of \eqn{\bar{\lambda}} is, the more robust the network is.
 		#' 	   	 }
+		#' 	   \item{\strong{"Pcr"}}{critical removal fraction of vertices (edges) for the disintegration of networks 
+		#' 	   	 <doi: 10.1007/s11704-016-6108-z> <doi: 10.1103/PhysRevE.72.056130>.
+		#' 	   	 This is a robustness measure based on random graph theory.
+		#' 	   	 The critical fraction against random attacks is labeled as \eqn{P_{c}^r}. It is defined:
+		#' 	   	     \deqn{P_{c}^r = 1 - \frac{1}{\frac{\langle k^2 \rangle}{\langle k \rangle} - 1}}
+		#' 	   	 where \eqn{\langle k \rangle} is the average nodal degree of the original network, and \eqn{\langle k^2 \rangle} is the average of square of nodal degree. 
+		#' 	   	 }
 		#'   }
 		#' @param run default 10. Replication number applied for the sampling method.
 		#' @return \code{res_table}, stored in the object.
+		#' @examples
+		#' tmp <- robustness$new(soil_amp_network, remove_strategy = c("edge_rand"), measure = c("Eff"), run = 3, remove_ratio = c(0.1, 0.5, 0.9))
+		#' tmp$plot(linewidth = 1)
+		#' 
 		initialize = function(network_list, 
 			remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_rand", "node_hub", "node_degree_high", "node_degree_low")[1], 
 			remove_ratio = seq(0, 1, 0.1), 
-			measure = c("Eff", "Eigen")[1], 
+			measure = c("Eff", "Eigen", "Pcr")[1], 
 			run = 10
 			){
 			
@@ -76,9 +87,12 @@ robustness <- R6::R6Class(classname = "robustness",
 						tmp_network_del_list <- lapply(delete_edge_sequence, function(y){
 							lapply(y, function(x){
 								tmp_network <- igraph::delete_edges(network, x)
-								tmp_obj <- clone(network_list[[j]])
-								tmp_obj$res_network <- tmp_network
-								tmp_network <- tmp_obj$subset_network(node = V(tmp_network)$name, rm_single = TRUE)
+								nodes_raw <- V(tmp_network)$name
+								edges <- igraph::as_data_frame(tmp_network, what = "edges")
+								delete_nodes <- nodes_raw %>% .[! . %in% as.character(c(edges[,1], edges[,2]))]
+								if(length(delete_nodes) > 0){
+									tmp_network %<>% delete_vertices(delete_nodes)
+								}
 								tmp_network
 							})
 						})
@@ -122,6 +136,10 @@ robustness <- R6::R6Class(classname = "robustness",
 					}
 					if("Eigen" %in% measure){
 						tmp_res[["Eigen"]] <- private$measure_eigen(network_del)
+					}
+					if("Pcr" %in% measure){
+						ori_degree <- igraph::degree(network) %>% mean
+						tmp_res[["Pcr"]] <- private$measure_pcr(network_del, ori_degree)
 					}
 					
 					tmp_res_table <- lapply(names(tmp_res), function(x){
@@ -225,10 +243,31 @@ robustness <- R6::R6Class(classname = "robustness",
 						0
 					}else{
 						am <- as_adjacency_matrix(x)
-						pca <- princomp(am)
-						ev <- (pca$sdev)^2
-						mlam <- log(sum(exp(ev))/length(ev), 10)
-						mlam
+						check_res <- tryCatch(pca <- princomp(am), error = function(e) {skip_to_next <- TRUE})
+						if(rlang::is_true(check_res)) {
+							NA
+						}else{
+							ev <- (pca$sdev)^2
+							log(sum(exp(ev))/length(ev), 10)
+						}
+					}
+				})
+			})
+		},
+		measure_pcr = function(all_networks, od){
+			lapply(all_networks, function(y){
+				lapply(y, function(x){
+					if(length(V(x)) < 2 | length(E(x)) < 2){
+						NA
+					}else{
+						all_degree <- igraph::degree(x)
+						ksq <- mean(all_degree^2)
+						k0 <- ksq/od
+						if(k0 == 1){
+							NA
+						}else{
+							1 - (1 / (k0 - 1))
+						}
 					}
 				})
 			})
