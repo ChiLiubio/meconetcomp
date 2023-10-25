@@ -1,4 +1,21 @@
 
+
+measure_eff <- function(all_networks){
+	lapply(all_networks, function(y){
+		lapply(y, function(x){
+			if(length(V(x)) < 2 | length(E(x)) < 2){
+				0
+			}else{
+				dis_matrix <- igraph::distances(x)
+				nodes_num <- ncol(dis_matrix)
+				dis_num <- as.dist(dis_matrix)
+				res_single <- sum(1/dis_num)/(nodes_num * (nodes_num - 1))
+				res_single
+			}
+		})
+	})
+}
+
 # Check whether the input list has the correct format
 check_input <- function(input){
 	if(!is.list(input)){
