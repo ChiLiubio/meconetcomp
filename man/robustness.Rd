@@ -12,8 +12,8 @@ This class is a wrapper for robustness calculation and visualization.
 ## Method `robustness$new`
 ## ------------------------------------------------
 
-tmp <- robustness$new(soil_amp_network, remove_strategy = c("edge_rand"), measure = c("Eff"), run = 3, remove_ratio = c(0.1, 0.5, 0.9))
-tmp$plot(linewidth = 1)
+tmp <- robustness$new(soil_amp_network, remove_strategy = c("edge_rand"), 
+  measure = c("Eff"), run = 3, remove_ratio = c(0.1, 0.5, 0.9))
 
 
 ## ------------------------------------------------
@@ -21,7 +21,7 @@ tmp$plot(linewidth = 1)
 ## ------------------------------------------------
 
 \donttest{
-t1$plot()
+tmp$plot(linewidth = 1)
 }
 }
 \section{Methods}{
@@ -97,8 +97,8 @@ created from \code{\link{trans_network}} class of microeco package.}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{tmp <- robustness$new(soil_amp_network, remove_strategy = c("edge_rand"), measure = c("Eff"), run = 3, remove_ratio = c(0.1, 0.5, 0.9))
-tmp$plot(linewidth = 1)
+\preformatted{tmp <- robustness$new(soil_amp_network, remove_strategy = c("edge_rand"), 
+  measure = c("Eff"), run = 3, remove_ratio = c(0.1, 0.5, 0.9))
 
 }
 \if{html}{\out{</div>}}
@@ -146,7 +146,7 @@ or the result of a call to a position adjustment function.}
 
 \item{\code{errorbar_width}}{default 0.1; errorbar width.}
 
-\item{\code{add_fitting}}{default FALSE; whether add fitted line.}
+\item{\code{add_fitting}}{default FALSE; whether add fitted smooth line. FALSE denotes add line segment among points.}
 
 \item{\code{...}}{parameters pass to ggplot2::geom_line (when add_fitting = FALSE) or ggplot2::geom_smooth (when add_fitting = TRUE).}
 }
@@ -158,7 +158,7 @@ or the result of a call to a position adjustment function.}
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{\donttest{
-t1$plot()
+tmp$plot(linewidth = 1)
 }
 }
 \if{html}{\out{</div>}}

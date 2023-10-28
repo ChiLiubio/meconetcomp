@@ -43,8 +43,8 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' @param run default 10. Replication number applied for the sampling method.
 		#' @return \code{res_table}, stored in the object.
 		#' @examples
-		#' tmp <- robustness$new(soil_amp_network, remove_strategy = c("edge_rand"), measure = c("Eff"), run = 3, remove_ratio = c(0.1, 0.5, 0.9))
-		#' tmp$plot(linewidth = 1)
+		#' tmp <- robustness$new(soil_amp_network, remove_strategy = c("edge_rand"), 
+		#'   measure = c("Eff"), run = 3, remove_ratio = c(0.1, 0.5, 0.9))
 		#' 
 		initialize = function(network_list, 
 			remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_rand", "node_hub", "node_degree_high", "node_degree_low")[1], 
@@ -53,7 +53,6 @@ robustness <- R6::R6Class(classname = "robustness",
 			run = 10
 			){
 			
-			require(igraph)
 			check_input(network_list)
 			if("node_hub" %in% remove_strategy){
 				private$check_node_table(network_list)
@@ -70,28 +69,28 @@ robustness <- R6::R6Class(classname = "robustness",
 					
 					if(any(grepl("^edge_", remove_strategy))){
 						delete_edge_sequence <- list()
-						total_edges_number <- length(E(network))
+						total_edges_number <- length(igraph::E(network))
 						delete_number <- round(total_edges_number * i)
 						if("edge_rand" %in% remove_strategy){
 							tmp_delete_edge_sequence <- replicate(run, sample(1:total_edges_number, size = delete_number), simplify = FALSE)
 							delete_edge_sequence[[paste0("edge_rand_number_", delete_number)]] <- tmp_delete_edge_sequence
 						}
 						if("edge_strong" %in% remove_strategy){
-							tmp_delete_edge_sequence <- order(E(network)$weight, decreasing = TRUE)[1:delete_number] %>% list
+							tmp_delete_edge_sequence <- order(igraph::E(network)$weight, decreasing = TRUE)[1:delete_number] %>% list
 							delete_edge_sequence[[paste0("edge_strong_number_", delete_number)]] <- tmp_delete_edge_sequence
 						}
 						if("edge_weak" %in% remove_strategy){
-							tmp_delete_edge_sequence <- order(E(network)$weight, decreasing = FALSE)[1:delete_number] %>% list
+							tmp_delete_edge_sequence <- order(igraph::E(network)$weight, decreasing = FALSE)[1:delete_number] %>% list
 							delete_edge_sequence[[paste0("edge_weak_number_", delete_number)]] <- tmp_delete_edge_sequence
 						}
 						tmp_network_del_list <- lapply(delete_edge_sequence, function(y){
 							lapply(y, function(x){
 								tmp_network <- igraph::delete_edges(network, x)
-								nodes_raw <- V(tmp_network)$name
+								nodes_raw <- igraph::V(tmp_network)$name
 								edges <- igraph::as_data_frame(tmp_network, what = "edges")
 								delete_nodes <- nodes_raw %>% .[! . %in% as.character(c(edges[,1], edges[,2]))]
 								if(length(delete_nodes) > 0){
-									tmp_network %<>% delete_vertices(delete_nodes)
+									tmp_network %<>% igraph::delete_vertices(delete_nodes)
 								}
 								tmp_network
 							})
@@ -111,15 +110,15 @@ robustness <- R6::R6Class(classname = "robustness",
 							delete_node_names[[paste0("node_hub_number_", delete_number)]] <- tmp_delete_node_names
 						}
 						if(any(c("node_degree_high", "node_degree_low") %in% remove_strategy)){
-							total_nodes_number <- length(V(network))
+							total_nodes_number <- length(igraph::V(network))
 							delete_number <- round(total_nodes_number * i)
 						}
 						if("node_degree_high" %in% remove_strategy){
-							node_names_order <- sort(degree(network), decreasing = TRUE) %>% names
+							node_names_order <- sort(igraph::degree(network), decreasing = TRUE) %>% names
 							delete_node_names[[paste0("node_degree_high_number_", delete_number)]] <- node_names_order[1:delete_number] %>% list
 						}
 						if("node_degree_low" %in% remove_strategy){
-							node_names_order <- sort(degree(network), decreasing = FALSE) %>% names
+							node_names_order <- sort(igraph::degree(network), decreasing = FALSE) %>% names
 							delete_node_names[[paste0("node_degree_low_number_", delete_number)]] <- node_names_order[1:delete_number] %>% list
 						}
 						tmp_network_del_list <- lapply(delete_node_names, function(y){
@@ -178,12 +177,12 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	 or the result of a call to a position adjustment function.
 		#' @param errorbar_size default 1; errorbar size.
 		#' @param errorbar_width default 0.1; errorbar width.
-		#' @param add_fitting default FALSE; whether add fitted line.
+		#' @param add_fitting default FALSE; whether add fitted smooth line. FALSE denotes add line segment among points.
 		#' @param ... parameters pass to ggplot2::geom_line (when add_fitting = FALSE) or ggplot2::geom_smooth (when add_fitting = TRUE).
 		#' @return \code{ggplot}.
 		#' @examples
 		#' \donttest{
-		#' t1$plot()
+		#' tmp$plot(linewidth = 1)
 		#' }
 		plot = function(
 			color_values = RColorBrewer::brewer.pal(8, "Dark2"),
@@ -224,10 +223,10 @@ robustness <- R6::R6Class(classname = "robustness",
 		measure_eigen = function(all_networks){
 			lapply(all_networks, function(y){
 				lapply(y, function(x){
-					if(length(V(x)) < 2 | length(E(x)) < 2){
+					if(length(igraph::V(x)) < 2 | length(igraph::E(x)) < 2){
 						0
 					}else{
-						am <- as_adjacency_matrix(x)
+						am <- igraph::as_adjacency_matrix(x)
 						check_res <- tryCatch(pca <- princomp(am), error = function(e) {skip_to_next <- TRUE})
 						if(rlang::is_true(check_res)) {
 							NA
@@ -242,7 +241,7 @@ robustness <- R6::R6Class(classname = "robustness",
 		measure_pcr = function(all_networks, od){
 			lapply(all_networks, function(y){
 				lapply(y, function(x){
-					if(length(V(x)) < 2 | length(E(x)) < 2){
+					if(length(igraph::V(x)) < 2 | length(igraph::E(x)) < 2){
 						NA
 					}else{
 						all_degree <- igraph::degree(x)
