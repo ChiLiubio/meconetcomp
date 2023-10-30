@@ -109,9 +109,14 @@ robustness <- R6::R6Class(classname = "robustness",
 							tmp_delete_node_names <- replicate(run, sample(total_hub_names, size = delete_number), simplify = FALSE)
 							delete_node_names[[paste0("node_hub_number_", delete_number)]] <- tmp_delete_node_names
 						}
-						if(any(c("node_degree_high", "node_degree_low") %in% remove_strategy)){
+						if(any(c("node_rand", "node_degree_high", "node_degree_low") %in% remove_strategy)){
 							total_nodes_number <- length(igraph::V(network))
 							delete_number <- round(total_nodes_number * i)
+						}
+						if("node_rand" %in% remove_strategy){
+							total_node_names <- igraph::V(network)$name
+							tmp_delete_node_names <- replicate(run, sample(total_node_names, size = delete_number), simplify = FALSE)
+							delete_node_names[[paste0("node_rand_number_", delete_number)]] <- tmp_delete_node_names
 						}
 						if("node_degree_high" %in% remove_strategy){
 							node_names_order <- sort(igraph::degree(network), decreasing = TRUE) %>% names
