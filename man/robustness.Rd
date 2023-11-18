@@ -77,7 +77,7 @@ created from \code{\link{trans_network}} class of microeco package.}
      \item{\strong{"Eigen"}}{natural connectivity <doi: 10.1007/s11704-016-6108-z>.
           The natural connectivity can be regarded as an average eigenvalue that changes strictly monotonically with the addition or deletion of edges. It is defined:
               \deqn{\bar{\lambda} = \ln(\frac{1}{N} \sum_{i=1}^{N} e^{\lambda~i~})}
-          where \eqn{\lambda~i~} is the \eqn{i}th eigenvalue of the graph adjacency matrix. The lager the value of \eqn{\bar{\lambda}} is, the more robust the network is.
+          where \eqn{\lambda~i~} is the \eqn{i}th eigenvalue of the graph adjacency matrix. The larger the value of \eqn{\bar{\lambda}} is, the more robust the network is.
           }
      \item{\strong{"Pcr"}}{critical removal fraction of vertices (edges) for the disintegration of networks 
           <doi: 10.1007/s11704-016-6108-z> <doi: 10.1103/PhysRevE.72.056130>.
