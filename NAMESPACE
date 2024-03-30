@@ -2,6 +2,7 @@
 
 export(cal_module)
 export(cal_network_attr)
+export(cohesionclass)
 export(edge_comp)
 export(edge_node_distance)
 export(edge_tax_comp)

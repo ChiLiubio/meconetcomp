@@ -5,7 +5,7 @@ Compare microbial co-occurrence networks based on the microeco package
 
 [![CRAN](https://www.r-pkg.org/badges/version/meconetcomp)](https://cran.r-project.org/web/packages/meconetcomp/index.html)
 [![CRAN](https://cranlogs.r-pkg.org/badges/grand-total/meconetcomp)](https://cran.r-project.org/web/packages/meconetcomp/index.html)
-![](https://img.shields.io/badge/Release-v0.4.1-blue.svg) ![](https://img.shields.io/badge/Test-v0.5.0-red.svg)
+![](https://img.shields.io/badge/Release-v0.5.0-blue.svg) ![](https://img.shields.io/badge/Test-v0.5.1-red.svg)
 
 
 ## Install meconetcomp
