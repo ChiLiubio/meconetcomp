@@ -14,7 +14,7 @@ robustness <- R6::R6Class(classname = "robustness",
 		#'     \item{\strong{"edge_strong"}}{edges are removed in decreasing order of weight.}
 		#' 	   \item{\strong{"edge_weak"}}{edges are removed in increasing order of weight.}
 		#' 	   \item{\strong{"node_rand"}}{nodes are removed randomly.}
-		#' 	   \item{\strong{"node_hub"}}{node hubs are removed. The hubs include network hubs and module hubs.}
+		#' 	   \item{\strong{"node_hub"}}{node hubs are randomly removed. The hubs include network hubs and module hubs.}
 		#' 	   \item{\strong{"node_degree_high"}}{nodes are removed in decreasing order of degree.}
 		#' 	   \item{\strong{"node_degree_low"}}{nodes are removed in increasing order of degree.}
 		#'   }
@@ -40,8 +40,9 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	   	 where \eqn{\langle k \rangle} is the average nodal degree of the original network, and \eqn{\langle k^2 \rangle} is the average of square of nodal degree. 
 		#' 	   	 }
 		#'   }
-		#' @param run default 10. Replication number applied for the sampling method.
-		#' @return \code{res_table}, stored in the object.
+		#' @param run default 10. Replication number of simulation for the sampling method; Only available when \code{remove_strategy} = "edge_rand", "node_rand" or "node_hub".
+		#' @return \code{res_table} and \code{res_summary}, stored in the object. The \code{res_table} is the original simulation result.
+		#'    The Mean and SD in \code{res_summary} come from the \code{res_table}.
 		#' @examples
 		#' tmp <- robustness$new(soil_amp_network, remove_strategy = c("edge_rand"), 
 		#'   measure = c("Eff"), run = 3, remove_ratio = c(0.1, 0.5, 0.9))
@@ -58,7 +59,7 @@ robustness <- R6::R6Class(classname = "robustness",
 				private$check_node_table(network_list)
 			}
 			res <- list()
-
+			
 			for(j in seq_along(network_list)){
 				message("Network: ", names(network_list)[j], " ...")
 				network <- network_list[[j]]$res_network
@@ -145,14 +146,16 @@ robustness <- R6::R6Class(classname = "robustness",
 						ori_degree <- igraph::degree(network) %>% mean
 						tmp_res[["Pcr"]] <- private$measure_pcr(network_del, ori_degree)
 					}
-					
+
 					tmp_res_table <- lapply(names(tmp_res), function(x){
 						tmp_table <- sapply(tmp_res[[x]], function(y){
-							y %<>% unlist
-							Mean <- mean(y)
-							SD <- sd(y)
-							c(Mean = Mean, SD = SD)
+							y <- unlist(y)
+							if(length(y) < run){
+								y <- c(y, rep(NA, run - length(y)))
+							}
+							y
 						}) %>% t %>% as.data.frame
+						colnames(tmp_table) <- paste0("run", 1:run)
 						tmp_table$remove_strategy <- names(tmp_res[[x]])
 						tmp_table$measure <- x
 						tmp_table
@@ -164,11 +167,22 @@ robustness <- R6::R6Class(classname = "robustness",
 				}
 			}
 			res %<>% do.call(rbind, .) %>% as.data.frame %>% microeco::dropallfactors(unfac2num = TRUE)
+			res <- reshape2::melt(res, measure.vars = 1:run, variable.name = "Run")
+			res %<>% .[!is.na(.$value), ]
 			res %<>%  tidyr::separate_wider_delim(., cols = "remove_strategy", delim = "_number_", names = c("remove_strategy", "remove_number"))
-			res %<>% .[, c("Network", "remove_strategy", "remove_ratio", "remove_number", "measure", "Mean", "SD")] %>% as.data.frame
-			res[, 1] %<>% factor(., levels = names(network_list))
+			res %<>% .[, c("Network", "remove_strategy", "remove_ratio", "remove_number", "measure", "Run", "value")] %>% as.data.frame(check.names = FALSE)
+			res[, "Network"] %<>% factor(., levels = names(network_list))
+			res[, "remove_strategy"] %<>% factor(., levels = remove_strategy)
+			res[, "measure"] %<>% factor(., levels = measure)
+
+			res_summary <- res %>% dplyr::group_by(Network, remove_strategy, remove_ratio, remove_number, measure) %>% 
+				dplyr::summarise(Mean = mean(value), SD = sd(value)) %>%
+				as.data.frame(stringsAsFactors = FALSE)
+	
 			self$res_table <- res
-			message("The result is stored in the object$res_table!")
+			self$res_summary <- res_summary
+			message("Original result is stored in the object$res_table!")
+			message("Summary result (Mean and SD) is stored in the object$res_summary!")
 		},
 		#' @description
 		#' Plot the simulation results.
@@ -201,9 +215,9 @@ robustness <- R6::R6Class(classname = "robustness",
 			add_fitting = FALSE,
 			...
 			){
-			res_table <- self$res_table
+			res_summary <- self$res_summary
 			
-			p <- ggplot(res_table, aes(x = remove_ratio, y = Mean, color = Network)) +
+			p <- ggplot(res_summary, aes(x = remove_ratio, y = Mean, color = Network)) +
 				scale_color_manual(values = color_values)
 			if(show_point){
 				p <- p + geom_point(alpha = point_alpha, size = point_size)
@@ -217,7 +231,7 @@ robustness <- R6::R6Class(classname = "robustness",
 				p <- p + geom_line(...)
 			}
 			p <- p + theme_bw()
-			if(length(unique(res_table$remove_strategy)) > 1 | length(unique(res_table$measure)) > 1){
+			if(length(unique(res_summary$remove_strategy)) > 1 | length(unique(res_summary$measure)) > 1){
 				p <- p + facet_grid(measure ~ remove_strategy, drop = TRUE, scale = "free", space = "fixed")
 			}
 			

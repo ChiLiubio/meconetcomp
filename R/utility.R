@@ -1,5 +1,6 @@
 
 
+# network efficiency metric
 measure_eff <- function(all_networks){
 	lapply(all_networks, function(y){
 		lapply(y, function(x){
@@ -15,6 +16,7 @@ measure_eff <- function(all_networks){
 		})
 	})
 }
+
 
 # Check whether the input list has the correct format
 check_input <- function(input){
