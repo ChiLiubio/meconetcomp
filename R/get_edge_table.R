@@ -3,7 +3,7 @@
 #' @description
 #' Get edge property table for each network in the list with multiple networks.
 #'
-#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.
+#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of \code{microeco} package.
 #' @return \code{list}, with \code{res_edge_table} in each network
 #' @examples
 #' data(soil_amp_network)

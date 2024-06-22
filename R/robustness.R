@@ -7,7 +7,7 @@
 robustness <- R6::R6Class(classname = "robustness",
 	public = list(
 		#' @param network_list a list with multiple networks; all the networks should be \code{trans_network} object 
-		#' 	 created from \code{\link{trans_network}} class of microeco package.
+		#' 	 created from \code{trans_network} class of \code{microeco} package.
 		#' @param remove_strategy default "edge_rand"; 
 		#'   \describe{
 		#' 	   \item{\strong{"edge_rand"}}{edges are randomly removed.}

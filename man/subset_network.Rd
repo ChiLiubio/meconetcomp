@@ -7,7 +7,7 @@
 subset_network(network_list, venn = NULL, name = NULL)
 }
 \arguments{
-\item{network_list}{a list with multiple networks; all the networks should be \code{trans_network} object created from \code{\link{trans_network}} class of microeco package.}
+\item{network_list}{a list with multiple networks; all the networks should be \code{trans_network} object created from \code{trans_network} class of microeco package.}
 
 \item{venn}{default NULL; a \code{microtable} object which must be converted by \code{trans_comm} function of \code{trans_venn} class.}
 

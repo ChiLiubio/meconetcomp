@@ -7,7 +7,7 @@
 node_comp(network_list, property = "name")
 }
 \arguments{
-\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.}
+\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of \code{microeco} package.}
 
 \item{property}{default "name"; a colname of \code{res_node_table} in each network; 
 the default "name" represents using node presence/absence information in the otu_table of final output, in which

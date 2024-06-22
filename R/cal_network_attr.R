@@ -3,7 +3,7 @@
 #' @description
 #' Calculate the topological properties of all the networks and merge the results into one table.
 #'
-#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.
+#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of \code{microeco} package.
 #' @return \code{data.frame}
 #' @examples
 #' data(soil_amp_network)

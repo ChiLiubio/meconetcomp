@@ -8,7 +8,7 @@
 edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 	public = list(
 		#' @param network_list a list with multiple networks; all the networks should be \code{trans_network} object 
-		#' 	 created from \code{\link{trans_network}} class of microeco package.
+		#' 	 created from \code{trans_network} class of \code{microeco} package.
 		#' @param dis_matrix default NULL; the distance matrix of nodes, used for the value extraction; 
 		#' 	 must be a symmetrical matrix with both colnames and rownames (i.e. feature names).
 		#' @param label default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges.

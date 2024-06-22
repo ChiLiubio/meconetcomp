@@ -3,7 +3,7 @@
 #' @description
 #' Extracting sub-network according to the presence of features in each sample across networks and calculate the sub-network properties.
 #' 
-#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.
+#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of \code{microeco} package.
 #' @return \code{data.frame}
 #' @examples
 #' \donttest{

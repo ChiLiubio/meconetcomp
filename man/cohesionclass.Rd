@@ -58,7 +58,7 @@ t1$plot(boxplot_add = "none", add_sig = TRUE)
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{network_list}}{a list with multiple networks; all the networks should be \code{trans_network} object 
-created from \code{\link{trans_network}} class of microeco package.}
+created from \code{trans_network} class of microeco package.}
 }
 \if{html}{\out{</div>}}
 }

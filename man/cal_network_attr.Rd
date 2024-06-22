@@ -7,7 +7,7 @@
 cal_network_attr(network_list)
 }
 \arguments{
-\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.}
+\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of \code{microeco} package.}
 }
 \value{
 \code{data.frame}

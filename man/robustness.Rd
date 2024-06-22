@@ -51,7 +51,7 @@ tmp$plot(linewidth = 1)
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{network_list}}{a list with multiple networks; all the networks should be \code{trans_network} object 
-created from \code{\link{trans_network}} class of microeco package.}
+created from \code{trans_network} class of \code{microeco} package.}
 
 \item{\code{remove_strategy}}{default "edge_rand"; 
 \describe{

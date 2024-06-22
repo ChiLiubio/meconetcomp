@@ -4,7 +4,7 @@
 #' Generate a \code{microtable} object with paired nodes distributions of edges across networks. Useful for the edge comparisons across different networks.
 #' The return \code{otu_table} in \code{microtable} object has the binary numbers in which 1 represents the presence of the edge in the corresponding network.
 #'
-#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of microeco package.
+#' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of microeco package.
 #' @return \code{microtable} object
 #' @examples
 #' data(soil_amp_network)

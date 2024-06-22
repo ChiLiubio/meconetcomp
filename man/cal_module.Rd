@@ -12,14 +12,14 @@ cal_module(
 )
 }
 \arguments{
-\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.}
+\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of \code{microeco} package.}
 
 \item{undirected_method}{default "cluster_fast_greedy"; the modularity algorithm for undirected network; 
-see \code{cal_module} function of \code{\link{trans_network}} class for more algorithms.}
+see \code{cal_module} function of \code{trans_network} class for more algorithms.}
 
 \item{directed_method}{default 'cluster_optimal'; the modularity algorithm for directed network.}
 
-\item{...}{other parameters (except for method) passed to \code{cal_module} function of \code{\link{trans_network}} class.}
+\item{...}{other parameters (except for method) passed to \code{cal_module} function of \code{trans_network} class.}
 }
 \value{
 \code{list}, with module attribute in nodes of each network

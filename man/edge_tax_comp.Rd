@@ -7,7 +7,7 @@
 edge_tax_comp(network_list, taxrank = "Phylum", label = "+", rel = TRUE)
 }
 \arguments{
-\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{\link{trans_network}} class of \code{microeco} package.}
+\item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of \code{microeco} package.}
 
 \item{taxrank}{default "Phylum"; Which taxonomic level is used for the sum of nodes in edges.}
 

@@ -14,7 +14,7 @@
 cohesionclass <- R6::R6Class(classname = "cohesionclass",
 	public = list(
 		#' @param network_list a list with multiple networks; all the networks should be \code{trans_network} object 
-		#' 	 created from \code{\link{trans_network}} class of microeco package.
+		#' 	 created from \code{trans_network} class of microeco package.
 		#' @return \code{res_list}, stored in the object.
 		#'  It includes two tables: res_feature and res_sample. In res_feature, the r_pos and r_neg columns mean the \eqn{\bar{r_{i}}_{|r>0}} and \eqn{\bar{r_{i}}_{|r<0}}.
 		#'  In res_sample, the c_pos and c_neg columns denote \eqn{C_{j}^{pos}} and \eqn{C_{j}^{neg}}.
