@@ -21,6 +21,7 @@ Please open the help document by using \code{help} function or by clicking the f
 \code{\link{subnet_property}}\cr
 \code{\link{robustness}}\cr
 \code{\link{vulnerability}}\cr
+\code{\link{cohesionclass}}\cr
 
 To report bugs or discuss questions, please use Github Issues (\href{https://github.com/ChiLiubio/meconetcomp/issues}{https://github.com/ChiLiubio/meconetcomp/issues}).
 Before creating a new issue, 
