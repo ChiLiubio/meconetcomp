@@ -74,7 +74,7 @@ t1$plot(boxplot_add = "none", add_sig = TRUE)
 created from \code{trans_network} class of \code{microeco} package.}
 
 \item{\code{dis_matrix}}{default NULL; the distance matrix of nodes, used for the value extraction; 
-must be a symmetrical matrix with both colnames and rownames (i.e. feature names).}
+must be a symmetrical matrix (or data.frame object) with both colnames and rownames (i.e. feature names).}
 
 \item{\code{label}}{default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges.}
 

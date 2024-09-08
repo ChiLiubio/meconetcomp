@@ -10,7 +10,7 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 		#' @param network_list a list with multiple networks; all the networks should be \code{trans_network} object 
 		#' 	 created from \code{trans_network} class of \code{microeco} package.
 		#' @param dis_matrix default NULL; the distance matrix of nodes, used for the value extraction; 
-		#' 	 must be a symmetrical matrix with both colnames and rownames (i.e. feature names).
+		#' 	 must be a symmetrical matrix (or data.frame object) with both colnames and rownames (i.e. feature names).
 		#' @param label default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges.
 		#' @param with_module default FALSE; whether show the module classification of nodes in the result.
 		#' @param module_thres default 2; the threshold of the nodes number of modules remained when \code{with_module = TRUE}.
@@ -35,6 +35,15 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 			if(is.null(dis_matrix)){
 				stop("Please provide dis_matrix parameter!")
 			}
+			if(!(inherits(dis_matrix, "matrix") | inherits(dis_matrix, "data.frame"))){
+				stop("Input dis_matrix must be matrix or data.frame class!")
+			}
+			if(is.null(colnames(dis_matrix)) | is.null(rownames(dis_matrix))){
+				stop("Input dis_matrix must have row names and column names!")
+			}
+			if(!any(colnames(dis_matrix) %in% rownames(dis_matrix))){
+				stop("The colnames of dis_matrix must be same with the rownames! Please check the input dis_matrix!")
+			}
 			if(!is.logical(with_module)){
 				stop("The parameter with_module must be logical!")
 			}
@@ -45,8 +54,12 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 			}
 			res_table <- data.frame()
 			for(i in names(network_list)){
+				net_obj <- network_list[[i]]
+				if(!any(igraph::V(net_obj$res_network)$name %in% colnames(dis_matrix))){
+					stop("The node names of network in ", i, " differ from the names in the input dis_matrix! Please check the input data!")
+				}
 				tmp <- private$get_matrix_value(
-					network = network_list[[i]], 
+					network = net_obj, 
 					label = label, 
 					dis_matrix = dis_matrix, 
 					group_name = i, 
