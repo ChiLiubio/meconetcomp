@@ -5,9 +5,10 @@
 #'
 #' @param network_list a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of \code{microeco} package.
 #' @param taxrank default "Phylum"; Which taxonomic level is used for the sum of nodes in edges.
-#' @param label default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges for the sum.
+#' @param label default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges.
 #' @param rel default \code{TRUE}; \code{TRUE} represents using ratio, the denominator is the number of selected edges; 
 #'   \code{FALSE} represents the absolute number of the sum of edges.
+#' @param sep default " -- "; The separator for two taxonomic names shown in the result.
 #' @return \code{data.frame}
 #' @examples
 #' data(soil_amp_network)
@@ -15,7 +16,7 @@
 #' # test is a microtable object
 #' 
 #' @export
-edge_tax_comp <- function(network_list, taxrank = "Phylum", label = "+", rel = TRUE){
+edge_tax_comp <- function(network_list, taxrank = "Phylum", label = "+", rel = TRUE, sep = " -- "){
 	check_input(network_list)
 	source_compare <- NULL
 	for(i in names(network_list)){
@@ -39,7 +40,7 @@ edge_tax_comp <- function(network_list, taxrank = "Phylum", label = "+", rel = T
 			# convert the result to long format
 			tmp2 <- reshape2::melt(tmp1, value.name = i)
 			tmp3 <- tmp2[, 1:2] %>% t %>% as.data.frame
-			tmp2$name <- lapply(tmp3, function(x){sort(x) %>% paste0(., collapse = " -- ")}) %>% unlist
+			tmp2$name <- lapply(tmp3, function(x){sort(x) %>% paste0(., collapse = sep)}) %>% unlist
 			tmp2 <- tmp2[, c("name", i)]
 			# remove duplicates
 			tmp2 %<>% .[!duplicated(.), ]

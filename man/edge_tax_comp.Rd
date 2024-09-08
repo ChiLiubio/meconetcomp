@@ -4,17 +4,25 @@
 \alias{edge_tax_comp}
 \title{Taxonomic sum of linked nodes in edges across networks}
 \usage{
-edge_tax_comp(network_list, taxrank = "Phylum", label = "+", rel = TRUE)
+edge_tax_comp(
+  network_list,
+  taxrank = "Phylum",
+  label = "+",
+  rel = TRUE,
+  sep = " -- "
+)
 }
 \arguments{
 \item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of \code{microeco} package.}
 
 \item{taxrank}{default "Phylum"; Which taxonomic level is used for the sum of nodes in edges.}
 
-\item{label}{default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges for the sum.}
+\item{label}{default "+"; "+" or "-" or \code{c("+", "-")}; the edge label used for the selection of edges.}
 
 \item{rel}{default \code{TRUE}; \code{TRUE} represents using ratio, the denominator is the number of selected edges; 
 \code{FALSE} represents the absolute number of the sum of edges.}
+
+\item{sep}{default " -- "; The separator for two taxonomic names shown in the result.}
 }
 \value{
 \code{data.frame}
