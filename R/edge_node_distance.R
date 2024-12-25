@@ -173,13 +173,13 @@ edge_node_distance <- R6::R6Class(classname = "edge_node_distance",
 				}
 			}else{
 				if(!is.numeric(module_thres)){
-					stop("module_thres must be numeric!")
+					stop("The module_thres parameter must be numeric!")
+				}
+				if(is.null(network$res_node_table)){
+					suppressMessages(network$get_node_table(node_roles = FALSE))
 				}
 				if(! "module" %in% colnames(network$res_node_table)){
 					stop("please first use cal_module function to calculate modularity!")
-				}
-				if(is.null(network$res_node_table)){
-					network$get_node_table(node_roles = FALSE)
 				}
 				# check module nodes number
 				use_modules <- table(network$res_node_table$module) %>% .[. >= module_thres] %>% names
