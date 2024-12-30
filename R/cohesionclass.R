@@ -101,6 +101,7 @@ cohesionclass <- R6::R6Class(classname = "cohesionclass",
 			self$cal_diff_method <- method
 			self$tmp_diff <- tmp2
 			message('The result is stored in object$res_diff ...')
+			invisible(self)
 		},
 		#' @description
 		#' Plot the result.
