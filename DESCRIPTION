@@ -1,7 +1,7 @@
 Package: meconetcomp
 Type: Package
 Title: Compare Microbial Networks of 'trans_network' Class of 'microeco' Package
-Version: 0.5.2
+Version: 0.6.1
 Authors@R: c(person("Chi", "Liu", role = c("aut", "cre"), email = "liuchi0426@126.com"),
               person("Minjie", "Yao", role = "ctb", email = "yaomj@fafu.edu.cn"),
               person("Xiangzhen", "Li", role = "ctb", email = "lixz@cib.ac.cn")
@@ -18,7 +18,7 @@ License: GPL-3
 LazyData: true
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2024-06-22
+Packaged: 2024-01-07
 Repository: CRAN
-Date/Publication: 2024-06-22
+Date/Publication: 2024-01-07
 RoxygenNote: 7.3.2
