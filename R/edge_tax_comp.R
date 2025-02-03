@@ -60,6 +60,9 @@ edge_tax_comp <- function(network_list, taxrank = "Phylum", label = "+", rel = T
 					suppressMessages(network_list[[i]]$get_edge_table())
 				}
 				tmp1 <- network_list[[i]]$res_edge_table
+				if(! "label" %in% colnames(tmp1)){
+					stop("The label column is not found in the res_edge_table of the network ", i, " !")
+				}
 				tmp1 %<>% .[.$label %in% label, ]
 				source_compare[, i] %<>% {. / nrow(tmp1)}
 			}else{
@@ -71,3 +74,4 @@ edge_tax_comp <- function(network_list, taxrank = "Phylum", label = "+", rel = T
 	source_compare %<>% .[, -1]
 	source_compare
 }
+
