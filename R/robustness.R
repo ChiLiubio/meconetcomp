@@ -246,11 +246,10 @@ robustness <- R6::R6Class(classname = "robustness",
 						0
 					}else{
 						am <- igraph::as_adjacency_matrix(x)
-						check_res <- tryCatch(pca <- princomp(am), error = function(e) {skip_to_next <- TRUE})
+						check_res <- tryCatch(ev <- eigen(am)$values, error = function(e) {skip_to_next <- TRUE})
 						if(rlang::is_true(check_res)) {
 							NA
 						}else{
-							ev <- (pca$sdev)^2
 							log(sum(exp(ev))/length(ev), 10)
 						}
 					}
