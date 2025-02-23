@@ -43,7 +43,8 @@ tmp$plot(linewidth = 1)
     "node_degree_high", "node_degree_low")[1],
   remove_ratio = seq(0, 1, 0.1),
   measure = c("Eff", "Eigen", "Pcr")[1],
-  run = 10
+  run = 10,
+  delete_unlinked_nodes = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -89,6 +90,8 @@ created from \code{trans_network} class of \code{microeco} package.}
 }}
 
 \item{\code{run}}{default 10. Replication number of simulation for the sampling method; Only available when \code{remove_strategy} = "edge_rand", "node_rand" or "node_hub".}
+
+\item{\code{delete_unlinked_nodes}}{default FALSE; whether delete the nodes without any link when removing edges.}
 }
 \if{html}{\out{</div>}}
 }

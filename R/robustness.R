@@ -41,6 +41,7 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	   	 }
 		#'   }
 		#' @param run default 10. Replication number of simulation for the sampling method; Only available when \code{remove_strategy} = "edge_rand", "node_rand" or "node_hub".
+		#' @param delete_unlinked_nodes default FALSE; whether delete the nodes without any link when removing edges.
 		#' @return \code{res_table} and \code{res_summary}, stored in the object. The \code{res_table} is the original simulation result.
 		#'    The Mean and SD in \code{res_summary} come from the \code{res_table}.
 		#' @examples
@@ -51,7 +52,8 @@ robustness <- R6::R6Class(classname = "robustness",
 			remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_rand", "node_hub", "node_degree_high", "node_degree_low")[1], 
 			remove_ratio = seq(0, 1, 0.1), 
 			measure = c("Eff", "Eigen", "Pcr")[1], 
-			run = 10
+			run = 10,
+			delete_unlinked_nodes = FALSE
 			){
 			
 			check_input(network_list)
@@ -87,11 +89,13 @@ robustness <- R6::R6Class(classname = "robustness",
 						tmp_network_del_list <- lapply(delete_edge_sequence, function(y){
 							lapply(y, function(x){
 								tmp_network <- igraph::delete_edges(network, x)
-								nodes_raw <- igraph::V(tmp_network)$name
-								edges <- igraph::as_data_frame(tmp_network, what = "edges")
-								delete_nodes <- nodes_raw %>% .[! . %in% as.character(c(edges[,1], edges[,2]))]
-								if(length(delete_nodes) > 0){
-									tmp_network %<>% igraph::delete_vertices(delete_nodes)
+								if(delete_unlinked_nodes){
+									nodes_raw <- igraph::V(tmp_network)$name
+									edges <- igraph::as_data_frame(tmp_network, what = "edges")
+									delete_nodes <- nodes_raw %>% .[! . %in% as.character(c(edges[,1], edges[,2]))]
+									if(length(delete_nodes) > 0){
+										tmp_network %<>% igraph::delete_vertices(delete_nodes)
+									}
 								}
 								tmp_network
 							})
