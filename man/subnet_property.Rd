@@ -4,10 +4,12 @@
 \alias{subnet_property}
 \title{Calculate properties of sub-networks selected according to features in samples}
 \usage{
-subnet_property(network_list)
+subnet_property(network_list, ...)
 }
 \arguments{
 \item{network_list}{a list with multiple networks; all the networks should be trans_network object created from \code{trans_network} class of \code{microeco} package.}
+
+\item{...}{parameters pass to \code{subset_network} function of \code{trans_network} class in microeco package (except the \code{node} parameter).}
 }
 \value{
 \code{data.frame}
