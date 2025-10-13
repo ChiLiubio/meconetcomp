@@ -26,7 +26,7 @@ t1 <- cohesionclass$new(soil_amp_network)
 ## ------------------------------------------------
 
 \donttest{
-t1$cal_diff(method = "wilcox")
+t1$cal_diff(measure = "c_pos", method = "wilcox")
 }
 
 ## ------------------------------------------------
@@ -114,7 +114,7 @@ Differential test.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{\donttest{
-t1$cal_diff(method = "wilcox")
+t1$cal_diff(measure = "c_pos", method = "wilcox")
 }
 }
 \if{html}{\out{</div>}}
@@ -134,9 +134,11 @@ Plot the result.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measure}}{default "c_pos"; "c_pos" or "c_neg" in the \code{res_list$sample}; "r_pos" or "r_neg" in the \code{res_list$feature}.}
+\item{\code{measure}}{default "c_pos"; "c_pos" or "c_neg" in the \code{res_list$sample}; "r_pos" or "r_neg" in the \code{res_list$feature}.
+This argument only takes effect when \code{cal_diff} function has not been used (i.e. \code{res_diff} is not in the object).
+For the case that \code{cal_diff} function is performed, please change the \code{measure} parameter in \code{cal_diff} function.}
 
-\item{\code{...}}{parameters pass to \code{plot_alpha} function of \code{trans_alpha} class of \code{microeco} package.}
+\item{\code{...}}{parameters pass to \code{plot_alpha} function of \code{trans_alpha} class of microeco package.}
 }
 \if{html}{\out{</div>}}
 }

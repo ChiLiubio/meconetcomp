@@ -84,7 +84,7 @@ cohesionclass <- R6::R6Class(classname = "cohesionclass",
 		#' @return \code{res_diff} in object. See the Return of \code{cal_diff} function in \code{trans_alpha} class of \code{microeco} package.
 		#' @examples
 		#' \donttest{
-		#' t1$cal_diff(method = "wilcox")
+		#' t1$cal_diff(measure = "c_pos", method = "wilcox")
 		#' }
 		cal_diff = function(measure = "c_pos", method = c("anova", "KW", "KW_dunn", "wilcox", "t.test")[1], ...){
 			measure <- match.arg(measure, c("c_pos", "c_neg", "r_pos", "r_neg"))
@@ -107,7 +107,9 @@ cohesionclass <- R6::R6Class(classname = "cohesionclass",
 		#' Plot the result.
 		#'
 		#' @param measure default "c_pos"; "c_pos" or "c_neg" in the \code{res_list$sample}; "r_pos" or "r_neg" in the \code{res_list$feature}.
-		#' @param ... parameters pass to \code{plot_alpha} function of \code{trans_alpha} class of \code{microeco} package.
+		#'    This argument only takes effect when \code{cal_diff} function has not been used (i.e. \code{res_diff} is not in the object).
+		#'    For the case that \code{cal_diff} function is performed, please change the \code{measure} parameter in \code{cal_diff} function.
+		#' @param ... parameters pass to \code{plot_alpha} function of \code{trans_alpha} class of microeco package.
 		#' @return \code{ggplot}.
 		#' @examples
 		#' \donttest{
