@@ -126,7 +126,7 @@ cohesionclass <- R6::R6Class(classname = "cohesionclass",
 				tmp <- private$prepare_data(data_table, measure)
 			}else{
 				tmp <- self$tmp_diff
-				measure <- t1$tmp_diff$measure
+				measure <- tmp$measure
 			}
 			tmp$plot_alpha(measure = measure, ...)
 		}
