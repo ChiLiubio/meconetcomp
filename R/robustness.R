@@ -15,6 +15,7 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	   \item{\strong{"edge_weak"}}{edges are removed in increasing order of weight.}
 		#' 	   \item{\strong{"node_rand"}}{nodes are removed randomly.}
 		#' 	   \item{\strong{"node_hub"}}{node hubs are randomly removed. The hubs include network hubs and module hubs.}
+		#' 	   \item{\strong{"node_hubcon"}}{all the node hubs and connectors are randomly removed, including network hubs, module hubs and connectors.}
 		#' 	   \item{\strong{"node_degree_high"}}{nodes are removed in decreasing order of degree.}
 		#' 	   \item{\strong{"node_degree_low"}}{nodes are removed in increasing order of degree.}
 		#'   }
@@ -40,7 +41,8 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	   	 where \eqn{\langle k \rangle} is the average nodal degree of the original network, and \eqn{\langle k^2 \rangle} is the average of square of nodal degree. 
 		#' 	   	 }
 		#'   }
-		#' @param run default 10. Replication number of simulation for the sampling method; Only available when \code{remove_strategy} = "edge_rand", "node_rand" or "node_hub".
+		#' @param run default 10. Replication number of simulation for the sampling method; 
+		#'    Only available when \code{remove_strategy} = "edge_rand", "node_rand", "node_hubcon" or "node_hub".
 		#' @param delete_unlinked_nodes default FALSE; whether delete the nodes without any link when removing edges.
 		#' @return \code{res_table} and \code{res_summary}, stored in the object. The \code{res_table} is the original simulation result.
 		#'    The Mean and SD in \code{res_summary} come from the \code{res_table}.
@@ -49,7 +51,7 @@ robustness <- R6::R6Class(classname = "robustness",
 		#'   measure = c("Eff"), run = 3, remove_ratio = c(0.1, 0.5, 0.9))
 		#' 
 		initialize = function(network_list, 
-			remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_rand", "node_hub", "node_degree_high", "node_degree_low")[1], 
+			remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_rand", "node_hub", "node_hubcon", "node_degree_high", "node_degree_low")[1], 
 			remove_ratio = seq(0, 1, 0.1), 
 			measure = c("Eff", "Eigen", "Pcr")[1], 
 			run = 10,
@@ -57,7 +59,7 @@ robustness <- R6::R6Class(classname = "robustness",
 			){
 			
 			check_input(network_list)
-			if("node_hub" %in% remove_strategy){
+			if(any(c("node_hub", "node_hubcon") %in% remove_strategy)){
 				private$check_node_table(network_list)
 			}
 			res <- list()
@@ -108,11 +110,22 @@ robustness <- R6::R6Class(classname = "robustness",
 							tmp_obj <- clone(network_list[[j]])
 							total_hub_names <- tmp_obj$res_node_table %>% .[grepl("hub", .$taxa_roles), ] %>% rownames
 							if(length(total_hub_names) == 0){
-								warning("No network or module hub is found for the network: ", names(network_list)[j], "! The node_hub results come from the full network!")
+								warning("No network or module hub is found for the network: ", names(network_list)[j], "! The node_hub results will come from total network!")
 							}
 							delete_number <- round(length(total_hub_names) * i)
 							tmp_delete_node_names <- replicate(run, sample(total_hub_names, size = delete_number), simplify = FALSE)
 							delete_node_names[[paste0("node_hub_number_", delete_number)]] <- tmp_delete_node_names
+						}
+						if("node_hubcon" %in% remove_strategy){
+							tmp_obj <- clone(network_list[[j]])
+							total_hubcon_names <- tmp_obj$res_node_table %>% .[grepl("hub|Connectors", .$taxa_roles), ] %>% rownames
+							if(length(total_hubcon_names) == 0){
+								warning("No network hub, module hub or connectors is found for the network: ", 
+									names(network_list)[j], "! The node_hubcon results will come from total network!")
+							}
+							delete_number <- round(length(total_hubcon_names) * i)
+							tmp_delete_node_names <- replicate(run, sample(total_hubcon_names, size = delete_number), simplify = FALSE)
+							delete_node_names[[paste0("node_hubcon_number_", delete_number)]] <- tmp_delete_node_names
 						}
 						if(any(c("node_rand", "node_degree_high", "node_degree_low") %in% remove_strategy)){
 							total_nodes_number <- length(igraph::V(network))
@@ -198,7 +211,7 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' @param show_errorbar default TRUE; whether show the errorbar by using the SD result.
 		#' @param errorbar_position default position_dodge(0); Position adjustment, either as a string (such as "identity"), 
 		#' 	 or the result of a call to a position adjustment function.
-		#' @param errorbar_size default 1; errorbar size.
+		#' @param errorbar_size default 1; errorbar line size.
 		#' @param errorbar_width default 0.1; errorbar width.
 		#' @param add_fitting default FALSE; whether add fitted smooth line. FALSE denotes add line segment among points.
 		#' @param ... parameters pass to ggplot2::geom_line (when add_fitting = FALSE) or ggplot2::geom_smooth (when add_fitting = TRUE).
@@ -227,7 +240,7 @@ robustness <- R6::R6Class(classname = "robustness",
 				p <- p + geom_point(alpha = point_alpha, size = point_size)
 			}
 			if(show_errorbar){
-				p <- p + geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD), linewidth = errorbar_width, position = errorbar_position, size = errorbar_size)
+				p <- p + geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD), width = errorbar_width, position = errorbar_position, linewidth = errorbar_size)
 			}
 			if(add_fitting == T){
 				p <- p + geom_smooth(se = FALSE, ...)
