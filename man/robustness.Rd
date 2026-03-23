@@ -71,10 +71,10 @@ created from \code{trans_network} class of \code{microeco} package.}
      \item{\strong{"node_degree_low"}}{nodes are removed in increasing order of degree.}
 }}
 
-\item{\code{remove_ratio}}{default seq(0, 1, 0.1).}
+\item{\code{remove_ratio}}{default seq(0, 1, 0.1). Removed ratio of nodes or edges according to the \code{remove_strategy} option.}
 
-\item{\code{remove_number}}{default NULL. A fixed number (e.g., 5) instead of the parameter \code{remove_ratio}. 
-See \code{remove_number_type} for the node or edge type selection.}
+\item{\code{remove_number}}{default NULL. Fixed number (e.g., 5 or c(1, 5)) instead of the ratio of \code{remove_ratio} parameter.
+When it is provided. The parameter \code{remove_ratio} will be disabled.}
 
 \item{\code{measure}}{default "Eff"; network robustness measures. 
 \describe{

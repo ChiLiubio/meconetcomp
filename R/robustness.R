@@ -22,9 +22,9 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	   \item{\strong{"node_degree_high"}}{nodes are removed in decreasing order of degree.}
 		#' 	   \item{\strong{"node_degree_low"}}{nodes are removed in increasing order of degree.}
 		#'   }
-		#' @param remove_ratio default seq(0, 1, 0.1).
-		#' @param remove_number default NULL. A fixed number (e.g., 5) instead of the parameter \code{remove_ratio}. 
-		#'    See \code{remove_number_type} for the node or edge type selection.
+		#' @param remove_ratio default seq(0, 1, 0.1). Removed ratio of nodes or edges according to the \code{remove_strategy} option.
+		#' @param remove_number default NULL. Fixed number (e.g., 5 or c(1, 5)) instead of the ratio of \code{remove_ratio} parameter.
+		#'    When it is provided. The parameter \code{remove_ratio} will be disabled.
 		#' @param measure default "Eff"; network robustness measures. 
 		#'   \describe{
 		#' 	   \item{\strong{"Eff"}}{network efficiency. The average efficiency of the network is defined:
@@ -371,6 +371,7 @@ robustness <- R6::R6Class(classname = "robustness",
 			self$res_summary <- res_summary
 			message("Original result is stored in the object$res_table!")
 			message("Summary result (Mean and SD) is stored in the object$res_summary!")
+			self$param_remove_number <- remove_number
 		},
 		#' @description
 		#' Plot the simulation results.
@@ -405,8 +406,13 @@ robustness <- R6::R6Class(classname = "robustness",
 			){
 			res_summary <- self$res_summary
 			
-			p <- ggplot(res_summary, aes(x = remove_ratio, y = Mean, color = Network)) +
-				scale_color_manual(values = color_values)
+			if(is.null(self$param_remove_number)){
+				p <- ggplot(res_summary, aes(x = remove_ratio, y = Mean, color = Network))
+			}else{
+				p <- ggplot(res_summary, aes(x = remove_number, y = Mean, color = Network))
+			}
+			
+			p <- p + scale_color_manual(values = color_values)
 			if(show_point){
 				p <- p + geom_point(alpha = point_alpha, size = point_size)
 			}
