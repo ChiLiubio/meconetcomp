@@ -10,16 +10,20 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	 created from \code{trans_network} class of \code{microeco} package.
 		#' @param remove_strategy default "edge_rand"; 
 		#'   \describe{
-		#' 	   \item{\strong{"edge_rand"}}{edges are randomly removed.}
-		#'     \item{\strong{"edge_strong"}}{edges are removed in decreasing order of weight.}
-		#' 	   \item{\strong{"edge_weak"}}{edges are removed in increasing order of weight.}
-		#' 	   \item{\strong{"node_rand"}}{nodes are removed randomly.}
-		#' 	   \item{\strong{"node_hub"}}{node hubs are randomly removed. The hubs include network hubs and module hubs.}
-		#' 	   \item{\strong{"node_hubcon"}}{all the node hubs and connectors are randomly removed, including network hubs, module hubs and connectors.}
+		#' 	   \item{\strong{"edge_rand"}}{The edges are randomly removed.}
+		#'     \item{\strong{"edge_strong"}}{The edges are removed in decreasing order of weight.}
+		#' 	   \item{\strong{"edge_weak"}}{The edges are removed in increasing order of weight.}
+		#' 	   \item{\strong{"node_rand"}}{The nodes are removed randomly.}
+		#' 	   \item{\strong{"node_hub"}}{The node hubs are randomly removed. The hubs include network hubs and module hubs.}
+		#' 	   \item{\strong{"node_hubcon"}}{The node hubs and connectors are randomly removed, including network hubs, module hubs and connectors.}
+		#' 	   \item{\strong{"node_nethub"}}{The network hubs are randomly removed.}
+		#' 	   \item{\strong{"node_modhub"}}{The module hubs are randomly removed.}
+		#' 	   \item{\strong{"node_con"}}{The connectors are randomly removed.}
 		#' 	   \item{\strong{"node_degree_high"}}{nodes are removed in decreasing order of degree.}
 		#' 	   \item{\strong{"node_degree_low"}}{nodes are removed in increasing order of degree.}
 		#'   }
 		#' @param remove_ratio default seq(0, 1, 0.1).
+		#' @param remove_number default NULL. A fixed number instead of the parameter \code{remove_ratio}. See \code{remove_number_type} for the node or edge type selection.
 		#' @param measure default "Eff"; network robustness measures. 
 		#'   \describe{
 		#' 	   \item{\strong{"Eff"}}{network efficiency. The average efficiency of the network is defined:
@@ -42,7 +46,7 @@ robustness <- R6::R6Class(classname = "robustness",
 		#' 	   	 }
 		#'   }
 		#' @param run default 10. Replication number of simulation for the sampling method; 
-		#'    Only available when \code{remove_strategy} = "edge_rand", "node_rand", "node_hubcon" or "node_hub".
+		#'    Only available when \code{remove_strategy} = "edge_rand", "node_rand", "node_hub", "node_hubcon", "node_nethub", "node_modhub" or "node_con".
 		#' @param delete_unlinked_nodes default FALSE; whether delete the nodes without any link when removing edges.
 		#' @return \code{res_table} and \code{res_summary}, stored in the object. The \code{res_table} is the original simulation result.
 		#'    The Mean and SD in \code{res_summary} come from the \code{res_table}.
@@ -51,7 +55,8 @@ robustness <- R6::R6Class(classname = "robustness",
 		#'   measure = c("Eff"), run = 3, remove_ratio = c(0.1, 0.5, 0.9))
 		#' 
 		initialize = function(network_list, 
-			remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_rand", "node_hub", "node_hubcon", "node_degree_high", "node_degree_low")[1], 
+			remove_strategy = c("edge_rand", "edge_strong", "edge_weak", 
+				"node_rand", "node_hub", "node_hubcon", "node_nethub", "node_modhub", "node_con", "node_degree_high", "node_degree_low")[1], 
 			remove_ratio = seq(0, 1, 0.1), 
 			measure = c("Eff", "Eigen", "Pcr")[1], 
 			run = 10,
@@ -59,7 +64,7 @@ robustness <- R6::R6Class(classname = "robustness",
 			){
 			
 			check_input(network_list)
-			if(any(c("node_hub", "node_hubcon") %in% remove_strategy)){
+			if(any(c("node_hub", "node_hubcon", "node_nethub", "node_modhub", "node_con") %in% remove_strategy)){
 				private$check_node_table(network_list)
 			}
 			res <- list()
@@ -126,6 +131,39 @@ robustness <- R6::R6Class(classname = "robustness",
 							delete_number <- round(length(total_hubcon_names) * i)
 							tmp_delete_node_names <- replicate(run, sample(total_hubcon_names, size = delete_number), simplify = FALSE)
 							delete_node_names[[paste0("node_hubcon_number_", delete_number)]] <- tmp_delete_node_names
+						}
+						if("node_nethub" %in% remove_strategy){
+							tmp_obj <- clone(network_list[[j]])
+							total_nethub_names <- tmp_obj$res_node_table %>% .[!is.na(.$taxa_roles), ] %>% .[.$taxa_roles == "Network hubs", ] %>% rownames
+							if(length(total_nethub_names) == 0){
+								warning("No network hub is found for the network: ", 
+									names(network_list)[j], "! The node_nethub results will come from total network!")
+							}
+							delete_number <- round(length(total_nethub_names) * i)
+							tmp_delete_node_names <- replicate(run, sample(total_nethub_names, size = delete_number), simplify = FALSE)
+							delete_node_names[[paste0("node_nethub_number_", delete_number)]] <- tmp_delete_node_names
+						}
+						if("node_modhub" %in% remove_strategy){
+							tmp_obj <- clone(network_list[[j]])
+							total_modhub_names <- tmp_obj$res_node_table %>% .[!is.na(.$taxa_roles), ] %>% .[.$taxa_roles == "Module hubs", ] %>% rownames
+							if(length(total_modhub_names) == 0){
+								warning("No module hub is found for the network: ", 
+									names(network_list)[j], "! The node_modhub results will come from total network!")
+							}
+							delete_number <- round(length(total_modhub_names) * i)
+							tmp_delete_node_names <- replicate(run, sample(total_modhub_names, size = delete_number), simplify = FALSE)
+							delete_node_names[[paste0("node_modhub_number_", delete_number)]] <- tmp_delete_node_names
+						}
+						if("node_con" %in% remove_strategy){
+							tmp_obj <- clone(network_list[[j]])
+							total_con_names <- tmp_obj$res_node_table %>% .[!is.na(.$taxa_roles), ] %>% .[.$taxa_roles == "Connectors", ] %>% rownames
+							if(length(total_con_names) == 0){
+								warning("No connectors is found for the network: ", 
+									names(network_list)[j], "! The node_con results will come from total network!")
+							}
+							delete_number <- round(length(total_con_names) * i)
+							tmp_delete_node_names <- replicate(run, sample(total_con_names, size = delete_number), simplify = FALSE)
+							delete_node_names[[paste0("node_con_number_", delete_number)]] <- tmp_delete_node_names
 						}
 						if(any(c("node_rand", "node_degree_high", "node_degree_low") %in% remove_strategy)){
 							total_nodes_number <- length(igraph::V(network))

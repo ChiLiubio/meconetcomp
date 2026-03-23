@@ -40,7 +40,8 @@ tmp$plot(linewidth = 1)
 \if{html}{\out{<div class="r">}}\preformatted{robustness$new(
   network_list,
   remove_strategy = c("edge_rand", "edge_strong", "edge_weak", "node_rand", "node_hub",
-    "node_hubcon", "node_degree_high", "node_degree_low")[1],
+    "node_hubcon", "node_nethub", "node_modhub", "node_con", "node_degree_high",
+    "node_degree_low")[1],
   remove_ratio = seq(0, 1, 0.1),
   measure = c("Eff", "Eigen", "Pcr")[1],
   run = 10,
@@ -56,12 +57,15 @@ created from \code{trans_network} class of \code{microeco} package.}
 
 \item{\code{remove_strategy}}{default "edge_rand"; 
 \describe{
-     \item{\strong{"edge_rand"}}{edges are randomly removed.}
-  \item{\strong{"edge_strong"}}{edges are removed in decreasing order of weight.}
-     \item{\strong{"edge_weak"}}{edges are removed in increasing order of weight.}
-     \item{\strong{"node_rand"}}{nodes are removed randomly.}
-     \item{\strong{"node_hub"}}{node hubs are randomly removed. The hubs include network hubs and module hubs.}
-     \item{\strong{"node_hubcon"}}{all the node hubs and connectors are randomly removed, including network hubs, module hubs and connectors.}
+     \item{\strong{"edge_rand"}}{The edges are randomly removed.}
+  \item{\strong{"edge_strong"}}{The edges are removed in decreasing order of weight.}
+     \item{\strong{"edge_weak"}}{The edges are removed in increasing order of weight.}
+     \item{\strong{"node_rand"}}{The nodes are removed randomly.}
+     \item{\strong{"node_hub"}}{The node hubs are randomly removed. The hubs include network hubs and module hubs.}
+     \item{\strong{"node_hubcon"}}{The node hubs and connectors are randomly removed, including network hubs, module hubs and connectors.}
+     \item{\strong{"node_nethub"}}{The network hubs are randomly removed.}
+     \item{\strong{"node_modhub"}}{The module hubs are randomly removed.}
+     \item{\strong{"node_con"}}{The connectors are randomly removed.}
      \item{\strong{"node_degree_high"}}{nodes are removed in decreasing order of degree.}
      \item{\strong{"node_degree_low"}}{nodes are removed in increasing order of degree.}
 }}
@@ -91,9 +95,11 @@ created from \code{trans_network} class of \code{microeco} package.}
 }}
 
 \item{\code{run}}{default 10. Replication number of simulation for the sampling method; 
-Only available when \code{remove_strategy} = "edge_rand", "node_rand", "node_hubcon" or "node_hub".}
+Only available when \code{remove_strategy} = "edge_rand", "node_rand", "node_hub", "node_hubcon", "node_nethub", "node_modhub" or "node_con".}
 
 \item{\code{delete_unlinked_nodes}}{default FALSE; whether delete the nodes without any link when removing edges.}
+
+\item{\code{remove_number}}{default NULL. A fixed number instead of the parameter \code{remove_ratio}. See \code{remove_number_type} for the node or edge type selection.}
 }
 \if{html}{\out{</div>}}
 }
