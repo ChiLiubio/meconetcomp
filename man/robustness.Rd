@@ -43,6 +43,7 @@ tmp$plot(linewidth = 1)
     "node_hubcon", "node_nethub", "node_modhub", "node_con", "node_degree_high",
     "node_degree_low")[1],
   remove_ratio = seq(0, 1, 0.1),
+  remove_number = NULL,
   measure = c("Eff", "Eigen", "Pcr")[1],
   run = 10,
   delete_unlinked_nodes = FALSE
@@ -72,6 +73,9 @@ created from \code{trans_network} class of \code{microeco} package.}
 
 \item{\code{remove_ratio}}{default seq(0, 1, 0.1).}
 
+\item{\code{remove_number}}{default NULL. A fixed number (e.g., 5) instead of the parameter \code{remove_ratio}. 
+See \code{remove_number_type} for the node or edge type selection.}
+
 \item{\code{measure}}{default "Eff"; network robustness measures. 
 \describe{
      \item{\strong{"Eff"}}{network efficiency. The average efficiency of the network is defined:
@@ -98,8 +102,6 @@ created from \code{trans_network} class of \code{microeco} package.}
 Only available when \code{remove_strategy} = "edge_rand", "node_rand", "node_hub", "node_hubcon", "node_nethub", "node_modhub" or "node_con".}
 
 \item{\code{delete_unlinked_nodes}}{default FALSE; whether delete the nodes without any link when removing edges.}
-
-\item{\code{remove_number}}{default NULL. A fixed number instead of the parameter \code{remove_ratio}. See \code{remove_number_type} for the node or edge type selection.}
 }
 \if{html}{\out{</div>}}
 }
