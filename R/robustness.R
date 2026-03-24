@@ -24,7 +24,7 @@ robustness <- R6::R6Class(classname = "robustness",
 		#'   }
 		#' @param remove_ratio default seq(0, 1, 0.1). Removed ratio of nodes or edges according to the \code{remove_strategy} option.
 		#' @param remove_number default NULL. Fixed number (e.g., 5 or c(1, 5)) instead of the ratio of \code{remove_ratio} parameter.
-		#'    When it is provided. The parameter \code{remove_ratio} will be disabled.
+		#'    When it is provided, the parameter \code{remove_ratio} will be disabled.
 		#' @param measure default "Eff"; network robustness measures. 
 		#'   \describe{
 		#' 	   \item{\strong{"Eff"}}{network efficiency. The average efficiency of the network is defined:
