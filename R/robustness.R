@@ -98,7 +98,7 @@ robustness <- R6::R6Class(classname = "robustness",
 						}else{
 							delete_ratio <- i/total_edges_number
 							if(delete_ratio >= 1){
-								warning("Input remove_number ", remove_number, " is larger than the total edges ", total_edges_number, " for the network: ", names(network_list)[j], 
+								warning("Input remove_number ", remove_number, " >= the total edges number ", total_edges_number, " for the network: ", names(network_list)[j], 
 									"! The result will come from all the network!")
 								delete_ratio <- 0
 								delete_number <- 0
@@ -150,8 +150,8 @@ robustness <- R6::R6Class(classname = "robustness",
 									delete_ratio <- i
 								}else{
 									delete_ratio <- i/total_hub_number
-									if(delete_ratio >= 1){
-										warning("Input remove_number ", remove_number, " is larger than the hub nodes ", total_hub_number, " for the network: ", 
+									if(delete_ratio > 1){
+										warning("Input remove_number ", remove_number, " > the hub nodes number ", total_hub_number, " for the network: ", 
 											names(network_list)[j], "! The result will come from all the network!")
 										delete_ratio <- 0
 										delete_number <- 0
@@ -178,8 +178,8 @@ robustness <- R6::R6Class(classname = "robustness",
 									delete_ratio <- i
 								}else{
 									delete_ratio <- i/total_hubcon_number
-									if(delete_ratio >= 1){
-										warning("Input remove_number ", remove_number, " is larger than the hub and connector nodes ", total_hubcon_number, " for the network: ", 
+									if(delete_ratio > 1){
+										warning("Input remove_number ", remove_number, " > the hub and connector nodes number ", total_hubcon_number, " for the network: ", 
 											names(network_list)[j], "! The result will come from all the network!")
 										delete_ratio <- 0
 										delete_number <- 0
@@ -207,8 +207,8 @@ robustness <- R6::R6Class(classname = "robustness",
 									delete_ratio <- i
 								}else{
 									delete_ratio <- i/total_nethub_number
-									if(delete_ratio >= 1){
-										warning("Input remove_number ", remove_number, " is larger than the network hub nodes ", total_nethub_number, " for the network: ", 
+									if(delete_ratio > 1){
+										warning("Input remove_number ", remove_number, " > the network hub nodes number ", total_nethub_number, " for the network: ", 
 											names(network_list)[j], "! The result will come from all the network!")
 										delete_ratio <- 0
 										delete_number <- 0
@@ -237,8 +237,8 @@ robustness <- R6::R6Class(classname = "robustness",
 									delete_ratio <- i
 								}else{
 									delete_ratio <- i/total_modhub_number
-									if(delete_ratio >= 1){
-										warning("Input remove_number ", remove_number, " is larger than the module hub nodes ", total_modhub_number, " for the network: ", 
+									if(delete_ratio > 1){
+										warning("Input remove_number ", remove_number, " > the module hub nodes number ", total_modhub_number, " for the network: ", 
 											names(network_list)[j], "! The result will come from all the network!")
 										delete_ratio <- 0
 										delete_number <- 0
@@ -267,8 +267,8 @@ robustness <- R6::R6Class(classname = "robustness",
 									delete_ratio <- i
 								}else{
 									delete_ratio <- i/total_con_number
-									if(delete_ratio >= 1){
-										warning("Input remove_number ", remove_number, " is larger than the connector nodes ", total_con_number, " for the network: ", 
+									if(delete_ratio > 1){
+										warning("Input remove_number ", remove_number, " > the connector nodes number ", total_con_number, " for the network: ", 
 											names(network_list)[j], "! The result will come from all the network!")
 										delete_ratio <- 0
 										delete_number <- 0
@@ -290,7 +290,7 @@ robustness <- R6::R6Class(classname = "robustness",
 							}else{
 								delete_ratio <- i/total_nodes_number
 								if(delete_ratio >= 1){
-									warning("Input remove_number ", remove_number, " is larger than the total nodes ", total_nodes_number, " for the network: ", 
+									warning("Input remove_number ", remove_number, " >= the total nodes number ", total_nodes_number, " for the network: ", 
 										names(network_list)[j], "! The result will come from all the network!")
 									delete_ratio <- 0
 									delete_number <- 0
