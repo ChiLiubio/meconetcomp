@@ -8,7 +8,7 @@ Compare microbial co-occurrence networks based on the microeco package
 ![](https://img.shields.io/badge/Release-v0.7.0-blue.svg) ![](https://img.shields.io/badge/Test-v0.8.0-red.svg)
 
 
-## Install meconetcomp
+## Install meconetcomp in R
 
 Install meconetcomp package from CRAN directly.
 
@@ -23,6 +23,14 @@ Or install the latest development version from github.
 install.packages("devtools")
 devtools::install_github("ChiLiubio/meconetcomp")
 ```
+
+
+## MecoToolkit: Interactive Microbiome Analysis App
+
+The [MecoToolkit](https://mecotoolkit.com/) app has been developed for interactive microbiome data analysis on the local computer. 
+No package/resource configuration is required.
+All the functions in meconetcomp has been implemented in the network analysis part of MecoToolkit app (https://mecotoolkit.com/).
+
 
 ## Tutorial
 
